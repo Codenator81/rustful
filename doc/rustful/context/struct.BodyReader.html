@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `Context` struct in crate `rustful`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, Context">
+    <meta name="description" content="API documentation for the Rust `BodyReader` struct in crate `rustful`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, BodyReader">
 
-    <title>rustful::Context - Rust</title>
+    <title>rustful::context::BodyReader - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='cache/index.html'>cache</a><a class='mod ' href='context_extensions/index.html'>context_extensions</a><a class='mod ' href='header/index.html'>header</a><a class='mod ' href='mime/index.html'>mime</a><a class='mod ' href='router/index.html'>router</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Context.html'>Context</a><a class='struct ' href='struct.Listening.html'>Listening</a><a class='struct ' href='struct.Response.html'>Response</a><a class='struct ' href='struct.ResponseWriter.html'>ResponseWriter</a><a class='struct ' href='struct.Server.html'>Server</a><a class='struct ' href='struct.ServerInstance.html'>ServerInstance</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ContextAction.html'>ContextAction</a><a class='enum ' href='enum.HttpError.html'>HttpError</a><a class='enum ' href='enum.Method.html'>Method</a><a class='enum ' href='enum.Protocol.html'>Protocol</a><a class='enum ' href='enum.ResponseAction.html'>ResponseAction</a><a class='enum ' href='enum.ResponseData.html'>ResponseData</a><a class='enum ' href='enum.ResponseError.html'>ResponseError</a><a class='enum ' href='enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Cache.html'>Cache</a><a class='trait ' href='trait.ContextPlugin.html'>ContextPlugin</a><a class='trait ' href='trait.Handler.html'>Handler</a><a class='trait ' href='trait.IntoResponseData.html'>IntoResponseData</a><a class='trait ' href='trait.ResponsePlugin.html'>ResponsePlugin</a><a class='trait ' href='trait.Router.html'>Router</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.BodyReader.html'>BodyReader</a><a class='struct ' href='struct.Context.html'>Context</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.ExtQueryBody.html'>ExtQueryBody</a></div>
     </section>
 
     <nav class="sub">
@@ -41,31 +41,15 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>rustful</a>::<wbr><a class='struct' href=''>Context</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context</a>::<wbr><a class='struct' href=''>BodyReader</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-4053' href='../src/rustful/lib.rs.html#661-683'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Context&lt;'a, 'c, Cache: 'c = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; {
-    pub headers: <a class='struct' href='../rustful/header/struct.Headers.html' title='rustful::header::Headers'>Headers</a>,
-    pub method: <a class='enum' href='../rustful/enum.Method.html' title='rustful::Method'>Method</a>,
-    pub path: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
-    pub variables: <a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
-    pub query: <a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
-    pub fragment: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
-    pub cache: &amp;'c Cache,
+        </span><a id='src-3635' href='../../src/rustful/context.rs.html#61-63'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct BodyReader&lt;'r&gt; {
     // some fields omitted
-}</pre><div class='docblock'><p>A container for things like request data and cache.</p>
-</div><h2 class='fields'>Fields</h2>
-<table><tr><td id='structfield.headers'><a class='stability Unmarked' title='No stability level'></a><code>headers</code></td><td><div class='docblock'><p>Headers from the HTTP request</p>
-</div></td></tr><tr><td id='structfield.method'><a class='stability Unmarked' title='No stability level'></a><code>method</code></td><td><div class='docblock'><p>The HTTP method</p>
-</div></td></tr><tr><td id='structfield.path'><a class='stability Unmarked' title='No stability level'></a><code>path</code></td><td><div class='docblock'><p>The requested path</p>
-</div></td></tr><tr><td id='structfield.variables'><a class='stability Unmarked' title='No stability level'></a><code>variables</code></td><td><div class='docblock'><p>Route variables</p>
-</div></td></tr><tr><td id='structfield.query'><a class='stability Unmarked' title='No stability level'></a><code>query</code></td><td><div class='docblock'><p>Query variables from the path</p>
-</div></td></tr><tr><td id='structfield.fragment'><a class='stability Unmarked' title='No stability level'></a><code>fragment</code></td><td><div class='docblock'><p>The fragment part of the URL (after #), if provided</p>
-</div></td></tr><tr><td id='structfield.cache'><a class='stability Unmarked' title='No stability level'></a><code>cache</code></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'a, 'c, C&gt; <a class='trait' href='../rustful/context_extensions/trait.QueryBody.html' title='rustful::context_extensions::QueryBody'>QueryBody</a> for <a class='struct' href='../rustful/struct.Context.html' title='rustful::Context'>Context</a>&lt;'a, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='method.read_query_body' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.read_query_body' class='fnname'>read_query_body</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;</code></h4>
-<div class='docblock'><p>Rad and parse the request body as a query string.
-The body will be decoded as UTF-8 and plain &#39;+&#39; characters will be replaced with spaces.</p>
-</div></div><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;'a, 'c, C&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a> for <a class='struct' href='../rustful/struct.Context.html' title='rustful::Context'>Context</a>&lt;'a, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='method.read' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.read' class='fnname'>read</a>(&amp;mut self, buf: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;</code></h4>
+}</pre><div class='docblock'><p>A reader for a request body.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'r&gt; <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h3><div class='impl-items'><h4 id='method.from_request' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.from_request' class='fnname'>from_request</a>(request: <a class='struct' href='../../hyper/server/request/struct.Request.html' title='hyper::server::request::Request'>Request</a>&lt;'r&gt;) -&gt; <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;'r&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a> for <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h3><div class='impl-items'><h4 id='method.read' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.read' class='fnname'>read</a>(&amp;mut self, buf: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;</code></h4>
 <div class='docblock'><p>Read the request body.</p>
 </div><h4 id='method.read_at_least' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.read_at_least' class='fnname'>read_at_least</a>(&amp;mut self, min: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, buf: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.read_byte' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.read_byte' class='fnname'>read_byte</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
@@ -100,7 +84,10 @@ The body will be decoded as UTF-8 and plain &#39;+&#39; characters will be repla
 <h4 id='method.read_le_f32' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.read_le_f32' class='fnname'>read_le_f32</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.read_u8' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.read_u8' class='fnname'>read_u8</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.read_i8' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.read_i8' class='fnname'>read_i8</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
-</div></section>
+</div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'r&gt; <a class='trait' href='../../rustful/context/trait.ExtQueryBody.html' title='rustful::context::ExtQueryBody'>ExtQueryBody</a> for <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h3><div class='impl-items'><h4 id='method.read_query_body' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.read_query_body' class='fnname'>read_query_body</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Read and parse the request body as a query string.
+The body will be decoded as UTF-8 and plain &#39;+&#39; characters will be replaced with spaces.</p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -139,13 +126,13 @@ The body will be decoded as UTF-8 and plain &#39;+&#39; characters will be repla
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>

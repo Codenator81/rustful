@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../cache/index.html'>cache</a><a class='mod ' href='../context_extensions/index.html'>context_extensions</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../mime/index.html'>mime</a><a class='mod current' href='../router/index.html'>router</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.Context.html'>Context</a><a class='struct ' href='../struct.Listening.html'>Listening</a><a class='struct ' href='../struct.Response.html'>Response</a><a class='struct ' href='../struct.ResponseWriter.html'>ResponseWriter</a><a class='struct ' href='../struct.Server.html'>Server</a><a class='struct ' href='../struct.ServerInstance.html'>ServerInstance</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.ContextAction.html'>ContextAction</a><a class='enum ' href='../enum.HttpError.html'>HttpError</a><a class='enum ' href='../enum.Method.html'>Method</a><a class='enum ' href='../enum.Protocol.html'>Protocol</a><a class='enum ' href='../enum.ResponseAction.html'>ResponseAction</a><a class='enum ' href='../enum.ResponseData.html'>ResponseData</a><a class='enum ' href='../enum.ResponseError.html'>ResponseError</a><a class='enum ' href='../enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='../trait.Cache.html'>Cache</a><a class='trait ' href='../trait.ContextPlugin.html'>ContextPlugin</a><a class='trait ' href='../trait.Handler.html'>Handler</a><a class='trait ' href='../trait.IntoResponseData.html'>IntoResponseData</a><a class='trait ' href='../trait.ResponsePlugin.html'>ResponsePlugin</a><a class='trait ' href='../trait.Router.html'>Router</a></div>
+        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../cache/index.html'>cache</a><a class='mod ' href='../context/index.html'>context</a><a class='mod ' href='../handler/index.html'>handler</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../mime/index.html'>mime</a><a class='mod ' href='../plugin/index.html'>plugin</a><a class='mod ' href='../response/index.html'>response</a><a class='mod current' href='../router/index.html'>router</a><a class='mod ' href='../server/index.html'>server</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.HttpError.html'>HttpError</a><a class='enum ' href='../enum.Method.html'>Method</a><a class='enum ' href='../enum.Protocol.html'>Protocol</a><a class='enum ' href='../enum.StatusCode.html'>StatusCode</a></div>
     </section>
 
     <nav class="sub">
@@ -41,37 +41,37 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>router</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>router</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-194' href='../../src/rustful/router.rs.html#1-664'>[src]</a></span></h1>
-<div class='docblock'><p><code>TreeRouter</code> stores items, such as request handlers, using an HTTP method and a path as keys.</p>
+        </span><a id='src-1372' href='../../src/rustful/router.rs.html#1-702'>[src]</a></span></h1>
+<div class='docblock'><p>Routers stores request handlers, using an HTTP method and a path as keys.</p>
 
-<p>The <code>TreeRouter</code> can be created from a vector of predefined paths, like this:</p>
+<p>The <code>TreeRouter</code>, for example, can be created from a vector of predefined paths, like this:</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>)
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>))
 ];
 
 <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
 </pre>
 
-<p>Routes may also be added after the <code>TreeRouter</code> was created, like this:</p>
+<p>Routes may also be added after the router was created, like this:</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
 
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
 </pre>
 
-<p>TreeRouter can also be used with a special macro for creating routes, called <code>insert_routes!{...}</code>:</p>
+<p>Routers can also be used with a special macro for creating routes, called <code>insert_routes!</code>:</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>phase</span>)]</span>
 <span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
@@ -84,11 +84,11 @@
 
 <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='macro'>insert_routes</span><span class='macro'>!</span>{
     <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>(): {
-        <span class='string'>&quot;/about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>about_us</span>,
-        <span class='string'>&quot;/user/:user&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span>,
-        <span class='string'>&quot;/product/:name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span>,
-        <span class='string'>&quot;/*&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_error</span>,
-        <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_welcome</span>
+        <span class='string'>&quot;/about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
+        <span class='string'>&quot;/user/:user&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
+        <span class='string'>&quot;/product/:name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
+        <span class='string'>&quot;/*&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
+        <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)
     }
 };
 </pre>
@@ -102,9 +102,17 @@ useful to lower the risk of typing errors, among other things.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.TreeRouter.html'
+                        <td><a class='stability Stable' title='Stable'></a><a class='struct' href='struct.TreeRouter.html'
                                title='rustful::router::TreeRouter'>TreeRouter</a></td>
                         <td class='docblock short'><p>Stores items, such as request handlers, using an HTTP method and a path as keys.</p>
+</td>
+                    </tr>
+                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.Router.html'
+                               title='rustful::router::Router'>Router</a></td>
+                        <td class='docblock short'><p>Routers are used to store request handlers.</p>
 </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>

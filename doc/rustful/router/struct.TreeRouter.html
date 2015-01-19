@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>router</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.TreeRouter.html'>TreeRouter</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>router</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.TreeRouter.html'>TreeRouter</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Router.html'>Router</a></div>
     </section>
 
     <nav class="sub">
@@ -41,10 +41,10 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>router</a>::<wbr><a class='struct' href=''>TreeRouter</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>router</a>::<wbr><a class='struct' href=''>TreeRouter</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-230' href='../../src/rustful/router.rs.html#105-110'>[src]</a></span></h1>
+        </span><a id='src-1521' href='../../src/rustful/router.rs.html#143-148'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct TreeRouter&lt;T&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>Stores items, such as request handlers, using an HTTP method and a path as keys.</p>
@@ -77,7 +77,7 @@ path gives a match.</p>
 </div></div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='struct' href='../../rustful/router/struct.TreeRouter.html' title='rustful::router::TreeRouter'>TreeRouter</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.insert_router' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.insert_router' class='fnname'>insert_router</a>(&amp;mut self, path: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, router: &amp;<a class='struct' href='../../rustful/router/struct.TreeRouter.html' title='rustful::router::TreeRouter'>TreeRouter</a>&lt;T&gt;)</code></h4>
 <div class='docblock'><p>Insert an other TreeRouter at a path. The content of the other TreeRouter will be merged with this one.
 Content with the same path and method will be overwritten.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;T&gt; <a class='trait' href='../../rustful/trait.Router.html' title='rustful::Router'>Router</a> for <a class='struct' href='../../rustful/router/struct.TreeRouter.html' title='rustful::router::TreeRouter'>TreeRouter</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Handler' class='type'><a class='stability Unmarked' title='No stability level'></a><code>type Handler = T</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;T&gt; <a class='trait' href='../../rustful/router/trait.Router.html' title='rustful::router::Router'>Router</a> for <a class='struct' href='../../rustful/router/struct.TreeRouter.html' title='rustful::router::TreeRouter'>TreeRouter</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Handler' class='type'><a class='stability Unmarked' title='No stability level'></a><code>type Handler = T</code></h4>
 <h4 id='method.find' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.find' class='fnname'>find</a>&lt;'a&gt;(&amp;'a self, method: &amp;<a class='enum' href='../../rustful/enum.Method.html' title='rustful::Method'>Method</a>, path: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../../rustful/router/type.RouterResult.html' title='rustful::router::RouterResult'>RouterResult</a>&lt;'a, T&gt;</code></h4>
 <h4 id='method.insert' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.insert' class='fnname'>insert</a>(&amp;mut self, method: <a class='enum' href='../../rustful/enum.Method.html' title='rustful::Method'>Method</a>, path: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, item: T)</code></h4>
 <div class='docblock'><p>Inserts an item into the <code>TreeRouter</code> at a given path.</p>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/context_extensions.rs`.">
+    <meta name="description" content="Source to the Rust file `src/handler.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
-    <title>context_extensions.rs.html -- source</title>
+    <title>handler.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -58,23 +58,33 @@
 <span id="16">16</span>
 <span id="17">17</span>
 <span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>IoResult</span>;
+<span class='doccomment'>//!Request handlers.</span>
 
-<span class='kw'>use</span> <span class='ident'>utils</span>;
-<span class='kw'>use</span> <span class='ident'>Context</span>;
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>QueryBody</span> {
-    <span class='kw'>fn</span> <span class='ident'>read_query_body</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;&gt;</span>;
+<span class='kw'>use</span> <span class='ident'>cache</span>::<span class='ident'>Cache</span>;
+<span class='kw'>use</span> <span class='ident'>context</span>::<span class='ident'>Context</span>;
+<span class='kw'>use</span> <span class='ident'>response</span>::<span class='ident'>Response</span>;
+
+<span class='doccomment'>///A trait for request handlers.</span>
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Handler</span> {
+    <span class='kw'>type</span> <span class='ident'>Cache</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>handle_request</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>context</span>: <span class='ident'>Context</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Cache</span><span class='op'>&gt;</span>, <span class='ident'>response</span>: <span class='ident'>Response</span>);
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;c</span>, <span class='ident'>C</span><span class='op'>&gt;</span> <span class='ident'>QueryBody</span> <span class='kw'>for</span> <span class='ident'>Context</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;c</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>///Rad and parse the request body as a query string.</span>
-    <span class='doccomment'>///The body will be decoded as UTF-8 and plain &#39;+&#39; characters will be replaced with spaces.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>read_query_body</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='ident'>utils</span>::<span class='ident'>parse_parameters</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_to_end</span>()).<span class='ident'>as_slice</span>()))
+<span class='attribute'>#[<span class='ident'>old_impl_check</span>]</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>C</span>: <span class='ident'>Cache</span>, <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>Context</span><span class='op'>&lt;</span><span class='ident'>C</span><span class='op'>&gt;</span>, <span class='ident'>Response</span>)<span class='op'>&gt;</span> <span class='ident'>Handler</span> <span class='kw'>for</span> <span class='ident'>F</span> {
+    <span class='kw'>type</span> <span class='ident'>Cache</span> <span class='op'>=</span> <span class='ident'>C</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>handle_request</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>context</span>: <span class='ident'>Context</span><span class='op'>&lt;</span><span class='ident'>C</span><span class='op'>&gt;</span>, <span class='ident'>response</span>: <span class='ident'>Response</span>) {
+        (<span class='op'>*</span><span class='self'>self</span>)(<span class='ident'>context</span>, <span class='ident'>response</span>);
     }
 }
 </pre>

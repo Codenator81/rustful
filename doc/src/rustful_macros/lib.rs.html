@@ -371,13 +371,13 @@
 <span class='doccomment'>//!...</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!let router = insert_routes!{</span>
-<span class='doccomment'>//!	TreeRouter::new(): {</span>
-<span class='doccomment'>//!		&quot;/about&quot; =&gt; Get: about_us,</span>
-<span class='doccomment'>//!		&quot;/user/:user&quot; =&gt; Get: show_user,</span>
-<span class='doccomment'>//!		&quot;/product/:name&quot; =&gt; Get: show_product,</span>
-<span class='doccomment'>//!		&quot;/*&quot; =&gt; Get: show_error,</span>
-<span class='doccomment'>//!		&quot;/&quot; =&gt; Get: show_welcome</span>
-<span class='doccomment'>//!	}</span>
+<span class='doccomment'>//!    TreeRouter::new(): {</span>
+<span class='doccomment'>//!        &quot;/about&quot; =&gt; Get: about_us,</span>
+<span class='doccomment'>//!        &quot;/user/:user&quot; =&gt; Get: show_user,</span>
+<span class='doccomment'>//!        &quot;/product/:name&quot; =&gt; Get: show_product,</span>
+<span class='doccomment'>//!        &quot;/*&quot; =&gt; Get: show_error,</span>
+<span class='doccomment'>//!        &quot;/&quot; =&gt; Get: show_welcome</span>
+<span class='doccomment'>//!    }</span>
 <span class='doccomment'>//!};</span>
 <span class='doccomment'>//!```</span>
 <span class='doccomment'>//!</span>
@@ -395,22 +395,22 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!let mut router = TreeRouter::new();</span>
 <span class='doccomment'>//!insert_routes!{</span>
-<span class='doccomment'>//!	&amp;mut router: {</span>
-<span class='doccomment'>//!		&quot;/&quot; =&gt; Get: show_home,</span>
-<span class='doccomment'>//!		&quot;home&quot; =&gt; Get: show_home,</span>
-<span class='doccomment'>//!		&quot;user/:username&quot; =&gt; {Get: show_user, Post: save_user},</span>
-<span class='doccomment'>//!		&quot;product&quot; =&gt; {</span>
-<span class='doccomment'>//!			Get: show_all_products,</span>
+<span class='doccomment'>//!    &amp;mut router: {</span>
+<span class='doccomment'>//!        &quot;/&quot; =&gt; Get: show_home,</span>
+<span class='doccomment'>//!        &quot;home&quot; =&gt; Get: show_home,</span>
+<span class='doccomment'>//!        &quot;user/:username&quot; =&gt; {Get: show_user, Post: save_user},</span>
+<span class='doccomment'>//!        &quot;product&quot; =&gt; {</span>
+<span class='doccomment'>//!            Get: show_all_products,</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!			&quot;json&quot; =&gt; Get: send_all_product_data</span>
-<span class='doccomment'>//!			&quot;:id&quot; =&gt; {</span>
-<span class='doccomment'>//!				Get: show_product,</span>
-<span class='doccomment'>//!				Post | Delete: edit_product,</span>
+<span class='doccomment'>//!            &quot;json&quot; =&gt; Get: send_all_product_data</span>
+<span class='doccomment'>//!            &quot;:id&quot; =&gt; {</span>
+<span class='doccomment'>//!                Get: show_product,</span>
+<span class='doccomment'>//!                Post | Delete: edit_product,</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!				&quot;json&quot; =&gt; Get: send_product_data</span>
-<span class='doccomment'>//!			}</span>
-<span class='doccomment'>//!		}</span>
-<span class='doccomment'>//!	}</span>
+<span class='doccomment'>//!                &quot;json&quot; =&gt; Get: send_product_data</span>
+<span class='doccomment'>//!            }</span>
+<span class='doccomment'>//!        }</span>
+<span class='doccomment'>//!    }</span>
 <span class='doccomment'>//!};</span>
 <span class='doccomment'>//!```</span>
 
@@ -421,8 +421,8 @@
 
 <span class='kw'>use</span> <span class='ident'>syntax</span>::{<span class='ident'>ast</span>, <span class='ident'>codemap</span>};
 <span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>ext</span>::<span class='ident'>base</span>::{
-	<span class='ident'>ExtCtxt</span>, <span class='ident'>MacResult</span>, <span class='ident'>MacExpr</span>,
-	<span class='ident'>NormalTT</span>, <span class='ident'>TTMacroExpander</span>
+    <span class='ident'>ExtCtxt</span>, <span class='ident'>MacResult</span>, <span class='ident'>MacExpr</span>,
+    <span class='ident'>NormalTT</span>, <span class='ident'>TTMacroExpander</span>
 };
 <span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>ext</span>::<span class='ident'>build</span>::<span class='ident'>AstBuilder</span>;
 <span class='kw'>use</span> <span class='ident'>syntax</span>::<span class='ident'>ext</span>::<span class='ident'>quote</span>::<span class='ident'>rt</span>::<span class='ident'>ExtParseUtils</span>;
@@ -438,119 +438,119 @@
 <span class='attribute'>#[<span class='ident'>plugin_registrar</span>]</span>
 <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>macro_registrar</span>(<span class='ident'>reg</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Registry</span>) {
-	<span class='kw'>let</span> <span class='ident'>expander</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>expand_routes</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>TTMacroExpander</span><span class='op'>&gt;</span>;
-	<span class='ident'>reg</span>.<span class='ident'>register_syntax_extension</span>(<span class='ident'>token</span>::<span class='ident'>intern</span>(<span class='string'>&quot;insert_routes&quot;</span>), <span class='ident'>NormalTT</span>(<span class='ident'>expander</span>, <span class='prelude-val'>None</span>));
+    <span class='kw'>let</span> <span class='ident'>expander</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>expand_routes</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>TTMacroExpander</span><span class='op'>&gt;</span>;
+    <span class='ident'>reg</span>.<span class='ident'>register_syntax_extension</span>(<span class='ident'>token</span>::<span class='ident'>intern</span>(<span class='string'>&quot;insert_routes&quot;</span>), <span class='ident'>NormalTT</span>(<span class='ident'>expander</span>, <span class='prelude-val'>None</span>));
 }
 
 <span class='kw'>fn</span> <span class='ident'>expand_routes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;cx</span><span class='op'>&gt;</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;cx</span> <span class='kw-2'>mut</span> <span class='ident'>ExtCtxt</span>, <span class='ident'>sp</span>: <span class='ident'>codemap</span>::<span class='ident'>Span</span>, <span class='ident'>tts</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>ast</span>::<span class='ident'>TokenTree</span>]) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>MacResult</span> <span class='op'>+</span> <span class='lifetime'>&#39;cx</span><span class='op'>&gt;</span> {
-	<span class='kw'>let</span> <span class='ident'>insert_method</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;insert&quot;</span>);
-	<span class='kw'>let</span> <span class='ident'>router_ident</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;router&quot;</span>);
-	<span class='kw'>let</span> <span class='ident'>router_var</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_ident</span>(<span class='ident'>sp</span>, <span class='ident'>router_ident</span>);
-	<span class='kw'>let</span> <span class='ident'>router_trait_path</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>path_global</span>(<span class='ident'>sp</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;rustful&quot;</span>), <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;Router&quot;</span>)]);
-	<span class='kw'>let</span> <span class='ident'>router_trait_use</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>view_use_simple</span>(<span class='ident'>sp</span>, <span class='ident'>ast</span>::<span class='ident'>Inherited</span>, <span class='ident'>router_trait_path</span>);
+    <span class='kw'>let</span> <span class='ident'>insert_method</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;insert&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>router_ident</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;router&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>router_var</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_ident</span>(<span class='ident'>sp</span>, <span class='ident'>router_ident</span>);
+    <span class='kw'>let</span> <span class='ident'>router_trait_path</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>path_global</span>(<span class='ident'>sp</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;rustful&quot;</span>), <span class='ident'>cx</span>.<span class='ident'>ident_of</span>(<span class='string'>&quot;Router&quot;</span>)]);
+    <span class='kw'>let</span> <span class='ident'>router_trait_use</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>view_use_simple</span>(<span class='ident'>sp</span>, <span class='ident'>ast</span>::<span class='ident'>Inherited</span>, <span class='ident'>router_trait_path</span>);
 
-	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='ident'>parse</span>::<span class='ident'>new_parser_from_tts</span>(
-		<span class='ident'>cx</span>.<span class='ident'>parse_sess</span>(), <span class='ident'>cx</span>.<span class='ident'>cfg</span>(), <span class='ident'>tts</span>.<span class='ident'>to_vec</span>()
-	);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='ident'>parse</span>::<span class='ident'>new_parser_from_tts</span>(
+        <span class='ident'>cx</span>.<span class='ident'>parse_sess</span>(), <span class='ident'>cx</span>.<span class='ident'>cfg</span>(), <span class='ident'>tts</span>.<span class='ident'>to_vec</span>()
+    );
 
-	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>calls</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>cx</span>.<span class='ident'>stmt_let</span>(<span class='ident'>sp</span>, <span class='boolval'>true</span>, <span class='ident'>router_ident</span>, <span class='ident'>parser</span>.<span class='ident'>parse_expr</span>())];
-	<span class='ident'>parser</span>.<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Colon</span>);
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>calls</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>cx</span>.<span class='ident'>stmt_let</span>(<span class='ident'>sp</span>, <span class='boolval'>true</span>, <span class='ident'>router_ident</span>, <span class='ident'>parser</span>.<span class='ident'>parse_expr</span>())];
+    <span class='ident'>parser</span>.<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Colon</span>);
 
-	<span class='kw'>for</span> (<span class='ident'>path</span>, <span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_routes</span>(<span class='ident'>cx</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
-		<span class='kw'>let</span> <span class='ident'>path_expr</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>parse_expr</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;\&quot;{}\&quot;&quot;</span>, <span class='ident'>path</span>));
-		<span class='kw'>let</span> <span class='ident'>method_expr</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_path</span>(<span class='ident'>method</span>);
-		<span class='ident'>calls</span>.<span class='ident'>push</span>(<span class='ident'>cx</span>.<span class='ident'>stmt_expr</span>(<span class='ident'>cx</span>.<span class='ident'>expr_method_call</span>(<span class='ident'>sp</span>, <span class='ident'>router_var</span>.<span class='ident'>clone</span>(), <span class='ident'>insert_method</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>method_expr</span>, <span class='ident'>path_expr</span>, <span class='ident'>handler</span>])));
-	}
+    <span class='kw'>for</span> (<span class='ident'>path</span>, <span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_routes</span>(<span class='ident'>cx</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
+        <span class='kw'>let</span> <span class='ident'>path_expr</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>parse_expr</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;\&quot;{}\&quot;&quot;</span>, <span class='ident'>path</span>));
+        <span class='kw'>let</span> <span class='ident'>method_expr</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_path</span>(<span class='ident'>method</span>);
+        <span class='ident'>calls</span>.<span class='ident'>push</span>(<span class='ident'>cx</span>.<span class='ident'>stmt_expr</span>(<span class='ident'>cx</span>.<span class='ident'>expr_method_call</span>(<span class='ident'>sp</span>, <span class='ident'>router_var</span>.<span class='ident'>clone</span>(), <span class='ident'>insert_method</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>method_expr</span>, <span class='ident'>path_expr</span>, <span class='ident'>handler</span>])));
+    }
 
-	<span class='kw'>let</span> <span class='ident'>block</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_block</span>(<span class='ident'>cx</span>.<span class='ident'>block_all</span>(<span class='ident'>sp</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>router_trait_use</span>], <span class='ident'>calls</span>, <span class='prelude-val'>Some</span>(<span class='ident'>router_var</span>)));
+    <span class='kw'>let</span> <span class='ident'>block</span> <span class='op'>=</span> <span class='ident'>cx</span>.<span class='ident'>expr_block</span>(<span class='ident'>cx</span>.<span class='ident'>block_all</span>(<span class='ident'>sp</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>router_trait_use</span>], <span class='ident'>calls</span>, <span class='prelude-val'>Some</span>(<span class='ident'>router_var</span>)));
 
-	<span class='ident'>MacExpr</span>::<span class='ident'>new</span>(<span class='ident'>block</span>)
+    <span class='ident'>MacExpr</span>::<span class='ident'>new</span>(<span class='ident'>block</span>)
 }
 
 <span class='kw'>fn</span> <span class='ident'>parse_routes</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ExtCtxt</span>, <span class='ident'>parser</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>String</span>, <span class='ident'>ast</span>::<span class='ident'>Path</span>, <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
-	<span class='ident'>parse_subroutes</span>(<span class='string'>&quot;&quot;</span>, <span class='ident'>cx</span>, <span class='ident'>parser</span>)
+    <span class='ident'>parse_subroutes</span>(<span class='string'>&quot;&quot;</span>, <span class='ident'>cx</span>, <span class='ident'>parser</span>)
 }
 
 <span class='kw'>fn</span> <span class='ident'>parse_subroutes</span>(<span class='ident'>base</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ExtCtxt</span>, <span class='ident'>parser</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>String</span>, <span class='ident'>ast</span>::<span class='ident'>Path</span>, <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
-	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
-	<span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>OpenDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>));
+    <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>OpenDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>));
 
-	<span class='kw'>while</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Eof</span>) {
-		<span class='kw'>match</span> <span class='ident'>parser</span>.<span class='ident'>parse_optional_str</span>() {
-			<span class='prelude-val'>Some</span>((<span class='kw-2'>ref</span> <span class='ident'>s</span>, _, _)) <span class='op'>=&gt;</span> {
-				<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>FatArrow</span>) {
-					<span class='ident'>parser</span>.<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>FatArrow</span>);
-					<span class='kw'>break</span>;
-				}
+    <span class='kw'>while</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Eof</span>) {
+        <span class='kw'>match</span> <span class='ident'>parser</span>.<span class='ident'>parse_optional_str</span>() {
+            <span class='prelude-val'>Some</span>((<span class='kw-2'>ref</span> <span class='ident'>s</span>, _, _)) <span class='op'>=&gt;</span> {
+                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>FatArrow</span>) {
+                    <span class='ident'>parser</span>.<span class='ident'>expect</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>FatArrow</span>);
+                    <span class='kw'>break</span>;
+                }
 
-				<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>to_string</span>();
-				<span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>container_as_str</span>() {
-					<span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
-						<span class='ident'>new_base</span>.<span class='ident'>push_str</span>(<span class='ident'>s</span>.<span class='ident'>trim_matches</span>(<span class='string'>&#39;/&#39;</span>));
-						<span class='ident'>new_base</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;/&quot;</span>);
-					},
-					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>cx</span>.<span class='ident'>span_err</span>(<span class='ident'>parser</span>.<span class='ident'>span</span>, <span class='string'>&quot;invalid path&quot;</span>)
-				}
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new_base</span> <span class='op'>=</span> <span class='ident'>base</span>.<span class='ident'>to_string</span>();
+                <span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>container_as_str</span>() {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {
+                        <span class='ident'>new_base</span>.<span class='ident'>push_str</span>(<span class='ident'>s</span>.<span class='ident'>trim_matches</span>(<span class='string'>&#39;/&#39;</span>));
+                        <span class='ident'>new_base</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;/&quot;</span>);
+                    },
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>cx</span>.<span class='ident'>span_err</span>(<span class='ident'>parser</span>.<span class='ident'>span</span>, <span class='string'>&quot;invalid path&quot;</span>)
+                }
 
-				<span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Eof</span>) {
-					<span class='ident'>cx</span>.<span class='ident'>span_err</span>(<span class='ident'>parser</span>.<span class='ident'>span</span>, <span class='string'>&quot;unexpected end of routing tree&quot;</span>);
-				}
+                <span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Eof</span>) {
+                    <span class='ident'>cx</span>.<span class='ident'>span_err</span>(<span class='ident'>parser</span>.<span class='ident'>span</span>, <span class='string'>&quot;unexpected end of routing tree&quot;</span>);
+                }
 
-				<span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>OpenDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)) {
-					<span class='kw'>let</span> <span class='ident'>subroutes</span> <span class='op'>=</span> <span class='ident'>parse_subroutes</span>(<span class='ident'>new_base</span>.<span class='ident'>as_slice</span>(), <span class='ident'>cx</span>, <span class='ident'>parser</span>);
-					<span class='ident'>routes</span>.<span class='ident'>push_all</span>(<span class='ident'>subroutes</span>.<span class='ident'>as_slice</span>());
+                <span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>OpenDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)) {
+                    <span class='kw'>let</span> <span class='ident'>subroutes</span> <span class='op'>=</span> <span class='ident'>parse_subroutes</span>(<span class='ident'>new_base</span>.<span class='ident'>as_slice</span>(), <span class='ident'>cx</span>, <span class='ident'>parser</span>);
+                    <span class='ident'>routes</span>.<span class='ident'>push_all</span>(<span class='ident'>subroutes</span>.<span class='ident'>as_slice</span>());
 
-					<span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>CloseDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)) {
-						<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
-							<span class='kw'>break</span>;
-						}
-					} <span class='kw'>else</span> {
-						<span class='ident'>parser</span>.<span class='ident'>expect_one_of</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>token</span>::<span class='ident'>Comma</span>, <span class='ident'>token</span>::<span class='ident'>CloseDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)], <span class='kw-2'>&amp;</span>[]);
-					}
-				} <span class='kw'>else</span> {
-					<span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_handler</span>(<span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
-						<span class='ident'>routes</span>.<span class='ident'>push</span>((<span class='ident'>new_base</span>.<span class='ident'>clone</span>(), <span class='ident'>method</span>, <span class='ident'>handler</span>))
-					}
+                    <span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>CloseDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)) {
+                        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
+                            <span class='kw'>break</span>;
+                        }
+                    } <span class='kw'>else</span> {
+                        <span class='ident'>parser</span>.<span class='ident'>expect_one_of</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>token</span>::<span class='ident'>Comma</span>, <span class='ident'>token</span>::<span class='ident'>CloseDelim</span>(<span class='ident'>token</span>::<span class='ident'>Brace</span>)], <span class='kw-2'>&amp;</span>[]);
+                    }
+                } <span class='kw'>else</span> {
+                    <span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_handler</span>(<span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
+                        <span class='ident'>routes</span>.<span class='ident'>push</span>((<span class='ident'>new_base</span>.<span class='ident'>clone</span>(), <span class='ident'>method</span>, <span class='ident'>handler</span>))
+                    }
 
-					<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
-						<span class='kw'>break</span>;
-					}
-				}
-			},
-			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-				<span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_handler</span>(<span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
-					<span class='ident'>routes</span>.<span class='ident'>push</span>((<span class='ident'>base</span>.<span class='ident'>to_string</span>(), <span class='ident'>method</span>, <span class='ident'>handler</span>))
-				}
+                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
+                        <span class='kw'>break</span>;
+                    }
+                }
+            },
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>handler</span>) <span class='kw'>in</span> <span class='ident'>parse_handler</span>(<span class='ident'>parser</span>).<span class='ident'>into_iter</span>() {
+                    <span class='ident'>routes</span>.<span class='ident'>push</span>((<span class='ident'>base</span>.<span class='ident'>to_string</span>(), <span class='ident'>method</span>, <span class='ident'>handler</span>))
+                }
 
-				<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
-					<span class='kw'>break</span>;
-				}
-			}
-		}
-	}
+                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Comma</span>) {
+                    <span class='kw'>break</span>;
+                }
+            }
+        }
+    }
 
-	<span class='ident'>routes</span>
+    <span class='ident'>routes</span>
 }
 
 <span class='kw'>fn</span> <span class='ident'>parse_handler</span>(<span class='ident'>parser</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Parser</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>ast</span>::<span class='ident'>Path</span>, <span class='ident'>P</span><span class='op'>&lt;</span><span class='ident'>ast</span>::<span class='ident'>Expr</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
-	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>methods</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>methods</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
-	<span class='kw'>loop</span> {
-		<span class='ident'>methods</span>.<span class='ident'>push</span>(<span class='ident'>parser</span>.<span class='ident'>parse_path</span>(<span class='ident'>parser</span>::<span class='ident'>NoTypesAllowed</span>));
+    <span class='kw'>loop</span> {
+        <span class='ident'>methods</span>.<span class='ident'>push</span>(<span class='ident'>parser</span>.<span class='ident'>parse_path</span>(<span class='ident'>parser</span>::<span class='ident'>NoTypesAllowed</span>));
 
-		<span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Colon</span>) {
-			<span class='kw'>break</span>;
-		}
+        <span class='kw'>if</span> <span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>Colon</span>) {
+            <span class='kw'>break</span>;
+        }
 
-		<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>BinOp</span>(<span class='ident'>token</span>::<span class='ident'>Or</span>)) {
-			<span class='ident'>parser</span>.<span class='ident'>expect_one_of</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>token</span>::<span class='ident'>Colon</span>, <span class='ident'>token</span>::<span class='ident'>BinOp</span>(<span class='ident'>token</span>::<span class='ident'>Or</span>)], <span class='kw-2'>&amp;</span>[]);
-		}
-	}
+        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parser</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>token</span>::<span class='ident'>BinOp</span>(<span class='ident'>token</span>::<span class='ident'>Or</span>)) {
+            <span class='ident'>parser</span>.<span class='ident'>expect_one_of</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>token</span>::<span class='ident'>Colon</span>, <span class='ident'>token</span>::<span class='ident'>BinOp</span>(<span class='ident'>token</span>::<span class='ident'>Or</span>)], <span class='kw-2'>&amp;</span>[]);
+        }
+    }
 
-	<span class='kw'>let</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>parser</span>.<span class='ident'>parse_expr</span>();
+    <span class='kw'>let</span> <span class='ident'>handler</span> <span class='op'>=</span> <span class='ident'>parser</span>.<span class='ident'>parse_expr</span>();
 
-	<span class='ident'>methods</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> (<span class='ident'>m</span>, <span class='ident'>handler</span>.<span class='ident'>clone</span>())).<span class='ident'>collect</span>()
+    <span class='ident'>methods</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> (<span class='ident'>m</span>, <span class='ident'>handler</span>.<span class='ident'>clone</span>())).<span class='ident'>collect</span>()
 }
 
 
@@ -561,9 +561,9 @@ It takes a main type, a sub type and a parameter list. Instead of this:
 
 ```
 response.headers.content_type = Some(MediaType {
-	type_: String::from_str(&quot;text&quot;),
-	subtype: String::from_str(&quot;html&quot;),
-	parameters: vec!((String::from_str(&quot;charset&quot;), String::from_str(&quot;UTF-8&quot;)))
+    type_: String::from_str(&quot;text&quot;),
+    subtype: String::from_str(&quot;html&quot;),
+    parameters: vec!((String::from_str(&quot;charset&quot;), String::from_str(&quot;UTF-8&quot;)))
 });
 ```
 
@@ -586,21 +586,21 @@ response.headers.content_type = content_type!(&quot;image&quot;, &quot;png&quot;
 **/</span>
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>content_type</span> {
-	(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> ({
-		::<span class='ident'>rustful</span>::<span class='ident'>mime</span>::<span class='ident'>Mime</span> (
-			<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>).<span class='ident'>unwrap</span>(),
-			<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>).<span class='ident'>unwrap</span>(),
-			<span class='ident'>Vec</span>::<span class='ident'>new</span>()
-		)
-	});
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> ({
+        ::<span class='ident'>rustful</span>::<span class='ident'>mime</span>::<span class='ident'>Mime</span> (
+            <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>).<span class='ident'>unwrap</span>(),
+            <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>).<span class='ident'>unwrap</span>(),
+            <span class='ident'>Vec</span>::<span class='ident'>new</span>()
+        )
+    });
 
-	(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>:<span class='ident'>expr</span>, $((<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>param</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>:<span class='ident'>expr</span>)),<span class='op'>+</span>) <span class='op'>=&gt;</span> ({
-		::<span class='ident'>rustful</span>::<span class='ident'>mime</span>::<span class='ident'>Mime</span> (
-			<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>).<span class='ident'>unwrap</span>(),
-			<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>).<span class='ident'>unwrap</span>(),
-			<span class='macro'>vec</span><span class='macro'>!</span>( $( (<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>param</span>).<span class='ident'>unwrap</span>(), <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>).<span class='ident'>unwrap</span>()) ),<span class='op'>+</span> )
-		)
-	});
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>:<span class='ident'>expr</span>, $((<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>param</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>:<span class='ident'>expr</span>)),<span class='op'>+</span>) <span class='op'>=&gt;</span> ({
+        ::<span class='ident'>rustful</span>::<span class='ident'>mime</span>::<span class='ident'>Mime</span> (
+            <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>main_type</span>).<span class='ident'>unwrap</span>(),
+            <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>sub_type</span>).<span class='ident'>unwrap</span>(),
+            <span class='macro'>vec</span><span class='macro'>!</span>( $( (<span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>param</span>).<span class='ident'>unwrap</span>(), <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>).<span class='ident'>unwrap</span>()) ),<span class='op'>+</span> )
+        )
+    });
 }
 
 
@@ -611,33 +611,33 @@ This macro will print an error to `stdout`.
 **/</span>
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>try_send</span> {
-	(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-		<span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>.<span class='ident'>send</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>) {
-			<span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
-			<span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
-				<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;IO error: {}&quot;</span>, <span class='ident'>e</span>);
-				<span class='kw'>return</span>;
-			},
-			<span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>PluginError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
-				<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;plugin error: {}&quot;</span>, <span class='ident'>e</span>);
-				<span class='kw'>return</span>;
-			}
-		}
-	);
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
+        <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>.<span class='ident'>send</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>) {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
+            <span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;IO error: {}&quot;</span>, <span class='ident'>e</span>);
+                <span class='kw'>return</span>;
+            },
+            <span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>PluginError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;plugin error: {}&quot;</span>, <span class='ident'>e</span>);
+                <span class='kw'>return</span>;
+            }
+        }
+    );
 
-	(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
-		<span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>.<span class='ident'>send</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>) {
-			<span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
-			<span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
-				<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;IO error while {}: {}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>, <span class='ident'>e</span>);
-				<span class='kw'>return</span>;
-			},
-			<span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>PluginError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
-				<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;plugin error while {}: {}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>, <span class='ident'>e</span>);
-				<span class='kw'>return</span>;
-			}
-		}
-	)
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> (
+        <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>writer</span>.<span class='ident'>send</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>content</span>) {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
+            <span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;IO error while {}: {}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>, <span class='ident'>e</span>);
+                <span class='kw'>return</span>;
+            },
+            <span class='prelude-val'>Err</span>(::<span class='ident'>rustful</span>::<span class='ident'>ResponseError</span>::<span class='ident'>PluginError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> {
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;plugin error while {}: {}&quot;</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>what</span>, <span class='ident'>e</span>);
+                <span class='kw'>return</span>;
+            }
+        }
+    )
 }
 </pre>
 </section>

@@ -7,9 +7,9 @@
     <meta name="description" content="API documentation for the Rust `Cache` trait in crate `rustful`.">
     <meta name="keywords" content="rust, rustlang, rust-lang, Cache">
 
-    <title>rustful::Cache - Rust</title>
+    <title>rustful::cache::Cache - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='cache/index.html'>cache</a><a class='mod ' href='context_extensions/index.html'>context_extensions</a><a class='mod ' href='header/index.html'>header</a><a class='mod ' href='mime/index.html'>mime</a><a class='mod ' href='router/index.html'>router</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Context.html'>Context</a><a class='struct ' href='struct.Listening.html'>Listening</a><a class='struct ' href='struct.Response.html'>Response</a><a class='struct ' href='struct.ResponseWriter.html'>ResponseWriter</a><a class='struct ' href='struct.Server.html'>Server</a><a class='struct ' href='struct.ServerInstance.html'>ServerInstance</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ContextAction.html'>ContextAction</a><a class='enum ' href='enum.HttpError.html'>HttpError</a><a class='enum ' href='enum.Method.html'>Method</a><a class='enum ' href='enum.Protocol.html'>Protocol</a><a class='enum ' href='enum.ResponseAction.html'>ResponseAction</a><a class='enum ' href='enum.ResponseData.html'>ResponseData</a><a class='enum ' href='enum.ResponseError.html'>ResponseError</a><a class='enum ' href='enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Cache.html'>Cache</a><a class='trait ' href='trait.ContextPlugin.html'>ContextPlugin</a><a class='trait ' href='trait.Handler.html'>Handler</a><a class='trait ' href='trait.IntoResponseData.html'>IntoResponseData</a><a class='trait ' href='trait.ResponsePlugin.html'>ResponsePlugin</a><a class='trait ' href='trait.Router.html'>Router</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>cache</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.CachedFile.html'>CachedFile</a><a class='struct ' href='struct.CachedProcessedFile.html'>CachedProcessedFile</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.Cache.html'>Cache</a><a class='trait ' href='trait.CachedValue.html'>CachedValue</a></div>
     </section>
 
     <nav class="sub">
@@ -41,23 +41,23 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>rustful</a>::<wbr><a class='trait' href=''>Cache</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>cache</a>::<wbr><a class='trait' href=''>Cache</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-2799' href='../src/rustful/lib.rs.html#244-247'>[src]</a></span></h1>
+        </span><a id='src-2808' href='../../src/rustful/cache.rs.html#14-17'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Cache {
     fn <a href='#tymethod.free_unused' class='fnname'>free_unused</a>(&amp;self);
 }</pre><div class='docblock'><p>A trait for cache storage.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.free_unused' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.free_unused' class='fnname'>free_unused</a>(&amp;self)</code></h3><div class='docblock'><p>Free all the unused cached resources.</p>
+        <h3 id='tymethod.free_unused' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.free_unused' class='fnname'>free_unused</a>(&amp;self)</code></h3><div class='docblock'><p>Free all the unused cached resources.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='../rustful/trait.Cache.html' title='rustful::Cache'>Cache</a> for <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></li>
+    <li><a class='stability Unstable' title='Unstable'></a><code>impl <a class='trait' href='../../rustful/cache/trait.Cache.html' title='rustful::cache::Cache'>Cache</a> for <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></li>
 </ul><script type="text/javascript" async
-                              src="../implementors/rustful/trait.Cache.js">
+                              src="../../implementors/rustful/cache/trait.Cache.js">
                       </script></section>
     <section id='search' class="content hidden"></section>
 
@@ -97,13 +97,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>

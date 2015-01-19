@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../cache/index.html'>cache</a><a class='mod ' href='../context_extensions/index.html'>context_extensions</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../mime/index.html'>mime</a><a class='mod ' href='../router/index.html'>router</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.Context.html'>Context</a><a class='struct ' href='../struct.Listening.html'>Listening</a><a class='struct ' href='../struct.Response.html'>Response</a><a class='struct ' href='../struct.ResponseWriter.html'>ResponseWriter</a><a class='struct ' href='../struct.Server.html'>Server</a><a class='struct ' href='../struct.ServerInstance.html'>ServerInstance</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.ContextAction.html'>ContextAction</a><a class='enum ' href='../enum.HttpError.html'>HttpError</a><a class='enum ' href='../enum.Method.html'>Method</a><a class='enum ' href='../enum.Protocol.html'>Protocol</a><a class='enum ' href='../enum.ResponseAction.html'>ResponseAction</a><a class='enum ' href='../enum.ResponseData.html'>ResponseData</a><a class='enum ' href='../enum.ResponseError.html'>ResponseError</a><a class='enum ' href='../enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='../trait.Cache.html'>Cache</a><a class='trait ' href='../trait.ContextPlugin.html'>ContextPlugin</a><a class='trait ' href='../trait.Handler.html'>Handler</a><a class='trait ' href='../trait.IntoResponseData.html'>IntoResponseData</a><a class='trait ' href='../trait.ResponsePlugin.html'>ResponsePlugin</a><a class='trait ' href='../trait.Router.html'>Router</a></div>
+        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../cache/index.html'>cache</a><a class='mod ' href='../context/index.html'>context</a><a class='mod ' href='../handler/index.html'>handler</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../mime/index.html'>mime</a><a class='mod ' href='../plugin/index.html'>plugin</a><a class='mod ' href='../response/index.html'>response</a><a class='mod ' href='../router/index.html'>router</a><a class='mod ' href='../server/index.html'>server</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.HttpError.html'>HttpError</a><a class='enum ' href='../enum.Method.html'>Method</a><a class='enum ' href='../enum.Protocol.html'>Protocol</a><a class='enum ' href='../enum.StatusCode.html'>StatusCode</a></div>
     </section>
 
     <nav class="sub">
@@ -41,22 +41,22 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>cache</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>cache</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1440' href='../../src/rustful/cache.rs.html#1-238'>[src]</a></span></h1>
-<div class='docblock'><p>Utility traits and implementations for cached resources.</p>
+        </span><a id='src-2797' href='../../src/rustful/cache.rs.html#1-256'>[src]</a></span></h1>
+<div class='docblock'><p>Traits and implementations for cached resources.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.CachedFile.html'
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='struct' href='struct.CachedFile.html'
                                title='rustful::cache::CachedFile'>CachedFile</a></td>
                         <td class='docblock short'><p>Cached raw file content.</p>
 </td>
                     </tr>
                 
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.CachedProcessedFile.html'
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='struct' href='struct.CachedProcessedFile.html'
                                title='rustful::cache::CachedProcessedFile'>CachedProcessedFile</a></td>
                         <td class='docblock short'><p>A processed cached file.</p>
 </td>
@@ -64,7 +64,14 @@
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.CachedValue.html'
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='trait' href='trait.Cache.html'
+                               title='rustful::cache::Cache'>Cache</a></td>
+                        <td class='docblock short'><p>A trait for cache storage.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='trait' href='trait.CachedValue.html'
                                title='rustful::cache::CachedValue'>CachedValue</a></td>
                         <td class='docblock short'><p>This trait provides functions for handling cached resources.</p>
 </td>

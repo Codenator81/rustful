@@ -7,9 +7,9 @@
     <meta name="description" content="API documentation for the Rust `ResponseWriter` struct in crate `rustful`.">
     <meta name="keywords" content="rust, rustlang, rust-lang, ResponseWriter">
 
-    <title>rustful::ResponseWriter - Rust</title>
+    <title>rustful::response::ResponseWriter - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
     
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='cache/index.html'>cache</a><a class='mod ' href='context_extensions/index.html'>context_extensions</a><a class='mod ' href='header/index.html'>header</a><a class='mod ' href='mime/index.html'>mime</a><a class='mod ' href='router/index.html'>router</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Context.html'>Context</a><a class='struct ' href='struct.Listening.html'>Listening</a><a class='struct ' href='struct.Response.html'>Response</a><a class='struct current' href='struct.ResponseWriter.html'>ResponseWriter</a><a class='struct ' href='struct.Server.html'>Server</a><a class='struct ' href='struct.ServerInstance.html'>ServerInstance</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ContextAction.html'>ContextAction</a><a class='enum ' href='enum.HttpError.html'>HttpError</a><a class='enum ' href='enum.Method.html'>Method</a><a class='enum ' href='enum.Protocol.html'>Protocol</a><a class='enum ' href='enum.ResponseAction.html'>ResponseAction</a><a class='enum ' href='enum.ResponseData.html'>ResponseData</a><a class='enum ' href='enum.ResponseError.html'>ResponseError</a><a class='enum ' href='enum.StatusCode.html'>StatusCode</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.Cache.html'>Cache</a><a class='trait ' href='trait.ContextPlugin.html'>ContextPlugin</a><a class='trait ' href='trait.Handler.html'>Handler</a><a class='trait ' href='trait.IntoResponseData.html'>IntoResponseData</a><a class='trait ' href='trait.ResponsePlugin.html'>ResponsePlugin</a><a class='trait ' href='trait.Router.html'>Router</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>response</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Response.html'>Response</a><a class='struct current' href='struct.ResponseWriter.html'>ResponseWriter</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ResponseData.html'>ResponseData</a><a class='enum ' href='enum.ResponseError.html'>ResponseError</a></div><div class='block trait'><h2>Traits</h2><a class='trait ' href='trait.IntoResponseData.html'>IntoResponseData</a></div>
     </section>
 
     <nav class="sub">
@@ -41,20 +41,20 @@
     </nav>
 
     <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>rustful</a>::<wbr><a class='struct' href=''>ResponseWriter</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>response</a>::<wbr><a class='struct' href=''>ResponseWriter</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-4599' href='../src/rustful/lib.rs.html#823-826'>[src]</a></span></h1>
+        </span><a id='src-4572' href='../../src/rustful/response.rs.html#274-277'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ResponseWriter&lt;'a, 'b&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>An interface for writing to the response body.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'a, 'b&gt; <a class='struct' href='../rustful/struct.ResponseWriter.html' title='rustful::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.send' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.send' class='fnname'>send</a>&lt;'d, Content: <a class='trait' href='../rustful/trait.IntoResponseData.html' title='rustful::IntoResponseData'>IntoResponseData</a>&lt;'d&gt;&gt;(&amp;mut self, content: Content) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../rustful/enum.ResponseError.html' title='rustful::ResponseError'>ResponseError</a>&gt;</code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'a, 'b&gt; <a class='struct' href='../../rustful/response/struct.ResponseWriter.html' title='rustful::response::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.send' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.send' class='fnname'>send</a>&lt;'d, Content: <a class='trait' href='../../rustful/response/trait.IntoResponseData.html' title='rustful::response::IntoResponseData'>IntoResponseData</a>&lt;'d&gt;&gt;(&amp;mut self, content: Content) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../../rustful/response/enum.ResponseError.html' title='rustful::response::ResponseError'>ResponseError</a>&gt;</code></h4>
 <div class='docblock'><p>Writes response body data to the client.</p>
-</div><h4 id='method.end' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.end' class='fnname'>end</a>(self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../rustful/enum.ResponseError.html' title='rustful::ResponseError'>ResponseError</a>&gt;</code></h4>
+</div><h4 id='method.end' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.end' class='fnname'>end</a>(self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='enum' href='../../rustful/response/enum.ResponseError.html' title='rustful::response::ResponseError'>ResponseError</a>&gt;</code></h4>
 <div class='docblock'><p>Finish writing the response and collect eventual errors.</p>
 
 <p>This is optional and will happen when the writer drops out of scope.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;'a, 'b&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> for <a class='struct' href='../rustful/struct.ResponseWriter.html' title='rustful::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.write' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.write' class='fnname'>write</a>(&amp;mut self, content: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;'a, 'b&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> for <a class='struct' href='../../rustful/response/struct.ResponseWriter.html' title='rustful::response::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.write' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.write' class='fnname'>write</a>(&amp;mut self, content: <a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a href='http://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <h4 id='method.flush' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.flush' class='fnname'>flush</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.write_fmt' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.write_fmt' class='fnname'>write_fmt</a>(&amp;mut self, fmt: <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.write_str' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.write_str' class='fnname'>write_str</a>(&amp;mut self, s: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
@@ -84,7 +84,7 @@
 <h4 id='method.write_le_f32' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.write_le_f32' class='fnname'>write_le_f32</a>(&amp;mut self, f: <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.write_u8' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.write_u8' class='fnname'>write_u8</a>(&amp;mut self, n: <a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
 <h4 id='method.write_i8' class='tymethod'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#tymethod.write_i8' class='fnname'>write_i8</a>(&amp;mut self, n: <a href='http://doc.rust-lang.org/nightly/std/primitive.i8.html'>i8</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/struct.IoError.html' title='std::io::IoError'>IoError</a>&gt;</code></h4>
-</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'a, 'b&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../rustful/struct.ResponseWriter.html' title='rustful::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.drop' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'a, 'b&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../rustful/response/struct.ResponseWriter.html' title='rustful::response::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.drop' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>Finishes writing and closes the connection.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
@@ -125,13 +125,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script async src="../../search-index.js"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `QueryBody` trait in crate `rustful`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, QueryBody">
+    <meta name="description" content="API documentation for the Rust `ExtQueryBody` trait in crate `rustful`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ExtQueryBody">
 
-    <title>rustful::context_extensions::QueryBody - Rust</title>
+    <title>rustful::context::ExtQueryBody - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context_extensions</a></p><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.QueryBody.html'>QueryBody</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.BodyReader.html'>BodyReader</a><a class='struct ' href='struct.Context.html'>Context</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.ExtQueryBody.html'>ExtQueryBody</a></div>
     </section>
 
     <nav class="sub">
@@ -41,21 +41,22 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context_extensions</a>::<wbr><a class='trait' href=''>QueryBody</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context</a>::<wbr><a class='trait' href=''>ExtQueryBody</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-2150' href='../../src/rustful/context_extensions.rs.html#7-9'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait QueryBody {
+        </span><a id='src-3688' href='../../src/rustful/context.rs.html#81-83'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ExtQueryBody {
     fn <a href='#tymethod.read_query_body' class='fnname'>read_query_body</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;;
-}</pre>
+}</pre><div class='docblock'><p><code>BodyReader</code> extension for reading and parsing a query string.</p>
+</div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
         <h3 id='tymethod.read_query_body' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.read_query_body' class='fnname'>read_query_body</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;&gt;</code></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'a, 'c, C&gt; <a class='trait' href='../../rustful/context_extensions/trait.QueryBody.html' title='rustful::context_extensions::QueryBody'>QueryBody</a> for <a class='struct' href='../../rustful/struct.Context.html' title='rustful::Context'>Context</a>&lt;'a, 'c, C&gt;</code></li>
+    <li><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'r&gt; <a class='trait' href='../../rustful/context/trait.ExtQueryBody.html' title='rustful::context::ExtQueryBody'>ExtQueryBody</a> for <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></li>
 </ul><script type="text/javascript" async
-                              src="../../implementors/rustful/context_extensions/trait.QueryBody.js">
+                              src="../../implementors/rustful/context/trait.ExtQueryBody.js">
                       </script></section>
     <section id='search' class="content hidden"></section>
 
