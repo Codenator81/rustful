@@ -294,15 +294,13 @@
 <span id="252">252</span>
 <span id="253">253</span>
 <span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Traits and implementations for cached resources.</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>File</span>, <span class='ident'>IoResult</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>fs</span>::<span class='ident'>PathExtensions</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::{<span class='ident'>File</span>, <span class='ident'>IoResult</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>fs</span>::<span class='ident'>PathExtensions</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>RwLock</span>, <span class='ident'>RwLockReadGuard</span>};
 
 <span class='kw'>use</span> <span class='ident'>time</span>;
@@ -361,7 +359,6 @@
 <span class='doccomment'>///The whole file will be loaded when accessed.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///```rust</span>
-<span class='doccomment'>///# #![allow(unstable)]</span>
 <span class='doccomment'>///use rustful::cache::{CachedValue, CachedFile};</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///let file = CachedFile::new(Path::new(&quot;/some/file/path.txt&quot;), None);</span>
@@ -444,8 +441,7 @@
 <span class='doccomment'>///each time it is loaded and the result will be stored.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///```rust</span>
-<span class='doccomment'>///# #![allow(unstable)]</span>
-<span class='doccomment'>///use std::io::{File, IoResult};</span>
+<span class='doccomment'>///use std::old_io::{File, IoResult};</span>
 <span class='doccomment'>///use rustful::cache::{CachedValue, CachedProcessedFile};</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///fn get_size(file: IoResult&lt;File&gt;) -&gt; IoResult&lt;Option&lt;u64&gt;&gt; {</span>

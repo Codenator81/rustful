@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>rustful</a>::<wbr><a class='enum' href=''>StatusCode</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-28422' href='../hyper/status/enum.StatusCode.html?gotosrc=28422'>[src]</a></span></h1>
+        </span><a id='src-28467' href='../hyper/status/enum.StatusCode.html?gotosrc=28467'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum StatusCode {
     Continue,
     SwitchingProtocols,
@@ -1076,6 +1076,16 @@ derive any meaning from it at all costs.</p>
 this canonical reason phrase really is the only reason phrase you’ll find.</p>
 </div><h4 id='method.class' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.class' class='fnname'>class</a>(&amp;self) -&gt; <a class='enum' href='../hyper/status/enum.StatusClass.html' title='hyper::status::StatusClass'>StatusClass</a></code></h4>
 <div class='docblock'><p>Determine the class of a status code, based on its first digit.</p>
+</div><h4 id='method.is_informational' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_informational' class='fnname'>is_informational</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if class is Informational.</p>
+</div><h4 id='method.is_success' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_success' class='fnname'>is_success</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if class is Success.</p>
+</div><h4 id='method.is_redirection' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_redirection' class='fnname'>is_redirection</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if class is Redirection.</p>
+</div><h4 id='method.is_client_error' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_client_error' class='fnname'>is_client_error</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if class is ClientError.</p>
+</div><h4 id='method.is_server_error' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.is_server_error' class='fnname'>is_server_error</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Check if class is ServerError.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../rustful/enum.StatusCode.html' title='rustful::StatusCode'>StatusCode</a></code></h3><div class='impl-items'></div><h3 class='impl'><a class='stability Unstable' title='Unstable: I/O and core have yet to be reconciled'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='enum' href='../rustful/enum.StatusCode.html' title='rustful::StatusCode'>StatusCode</a></code></h3><div class='docblock'><p>Formats the status code, <em>including</em> the canonical reason.</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>ImATeapot</span>)[],
