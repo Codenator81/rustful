@@ -476,8 +476,8 @@
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] {
         <span class='kw'>match</span> <span class='self'>self</span> {
-            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>Bytes</span>(<span class='kw-2'>ref</span> <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>bytes</span>[],
-            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>ByteSlice</span>(<span class='kw-2'>ref</span> <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>bytes</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>Bytes</span>(<span class='kw-2'>ref</span> <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> <span class='ident'>bytes</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>ByteSlice</span>(<span class='kw-2'>ref</span> <span class='ident'>bytes</span>) <span class='op'>=&gt;</span> <span class='ident'>bytes</span>,
             <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>String</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='ident'>string</span>.<span class='ident'>as_bytes</span>(),
             <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>StringSlice</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='ident'>string</span>.<span class='ident'>as_bytes</span>()
         }
@@ -499,8 +499,8 @@
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_string</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span> {
-            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>String</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>string</span>[]),
-            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>StringSlice</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>string</span>[]),
+            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>String</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>string</span>),
+            <span class='kw-2'>&amp;</span><span class='ident'>ResponseData</span>::<span class='ident'>StringSlice</span>(<span class='kw-2'>ref</span> <span class='ident'>string</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>string</span>),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
         }
     }
@@ -609,7 +609,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>write_queue</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>header_result</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>status</span>.<span class='ident'>take</span>().<span class='ident'>unwrap</span>(), <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>take</span>().<span class='ident'>unwrap</span>(), <span class='ident'>Write</span>(<span class='prelude-val'>None</span>));
 
-        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span>.<span class='ident'>iter</span>() {
+        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span> {
             <span class='ident'>header_result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>header_result</span> {
                 (_, _, <span class='ident'>DoNothing</span>) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
                 (_, _, <span class='ident'>Error</span>(_)) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
@@ -653,7 +653,7 @@
                     <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>))
                 };
 
-                <span class='kw'>for</span> <span class='ident'>action</span> <span class='kw'>in</span> <span class='ident'>write_queue</span>.<span class='ident'>into_iter</span>() {
+                <span class='kw'>for</span> <span class='ident'>action</span> <span class='kw'>in</span> <span class='ident'>write_queue</span> {
                     <span class='ident'>writer</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='ident'>action</span>, <span class='ident'>writer</span>) {
                         (<span class='ident'>Write</span>(<span class='prelude-val'>Some</span>(<span class='ident'>content</span>)), <span class='prelude-val'>Ok</span>(<span class='kw-2'>mut</span> <span class='ident'>writer</span>)) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='ident'>content</span>.<span class='ident'>as_bytes</span>()) {
                             <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>writer</span>),
@@ -700,7 +700,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>as_mut</span>().<span class='ident'>expect</span>(<span class='string'>&quot;write after close&quot;</span>).<span class='ident'>as_mut</span>().<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>clone</span>()));
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>plugin_result</span> <span class='op'>=</span> <span class='ident'>ResponseAction</span>::<span class='ident'>write</span>(<span class='prelude-val'>Some</span>(<span class='ident'>content</span>));
 
-        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span>.<span class='ident'>iter</span>() {
+        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span> {
             <span class='ident'>plugin_result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>plugin_result</span> {
                 <span class='ident'>Write</span>(<span class='ident'>content</span>) <span class='op'>=&gt;</span> <span class='ident'>plugin</span>.<span class='ident'>write</span>(<span class='ident'>content</span>),
                 _ <span class='op'>=&gt;</span> <span class='kw'>break</span>
@@ -734,7 +734,7 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>take</span>().<span class='ident'>expect</span>(<span class='string'>&quot;can only finish once&quot;</span>));
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>write_queue</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ResponseAction</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
-        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span>.<span class='ident'>iter</span>() {
+        <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>error</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
             <span class='ident'>write_queue</span> <span class='op'>=</span> <span class='ident'>write_queue</span>.<span class='ident'>into_iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>action</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>action</span> {
                 <span class='ident'>Write</span>(<span class='ident'>content</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>plugin</span>.<span class='ident'>write</span>(<span class='ident'>content</span>)),
@@ -751,7 +751,7 @@
             }
         }
 
-        <span class='kw'>for</span> <span class='ident'>action</span> <span class='kw'>in</span> <span class='ident'>write_queue</span>.<span class='ident'>into_iter</span>() {
+        <span class='kw'>for</span> <span class='ident'>action</span> <span class='kw'>in</span> <span class='ident'>write_queue</span> {
             <span class='macro'>try</span><span class='macro'>!</span>{
                 <span class='kw'>match</span> <span class='ident'>action</span> {
                     <span class='ident'>Write</span>(<span class='prelude-val'>Some</span>(<span class='ident'>content</span>)) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='ident'>content</span>.<span class='ident'>as_bytes</span>()),
