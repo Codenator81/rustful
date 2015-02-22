@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../cache/index.html' title='Traits and implementations for cached resources.'>cache</a><a class='mod ' href='../context/index.html' title='Handler context and request body reading extensions.'>context</a><a class='mod ' href='../handler/index.html' title='Request handlers.'>handler</a><a class='mod ' href='../header/index.html' title='Headers container, and common header fields.'>header</a><a class='mod ' href='../log/index.html' title='Log tools.'>log</a><a class='mod ' href='../mime/index.html' title=''>mime</a><a class='mod ' href='../plugin/index.html' title='Request and context plugins.'>plugin</a><a class='mod ' href='../response/index.html' title='Response writers.'>response</a><a class='mod current' href='../router/index.html' title='Routers stores request handlers, using an HTTP method and a path as keys.'>router</a><a class='mod ' href='../server/index.html' title='Server configuration and instance.'>server</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.HttpError.html' title='A set of errors that can occur parsing HTTP streams.'>HttpError</a><a class='enum ' href='../enum.Method.html' title='The Request Method (VERB)'>Method</a><a class='enum ' href='../enum.Protocol.html' title='HTTP or HTTPS'>Protocol</a><a class='enum ' href='../enum.StatusCode.html' title='An HTTP status code (`Status-Code` in RFC 2616).'>StatusCode</a></div>
+        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../cache/index.html' title='Traits and implementations for cached resources.'>cache</a><a class='mod ' href='../context/index.html' title='Handler context and request body reading extensions.'>context</a><a class='mod ' href='../handler/index.html' title='Request handlers.'>handler</a><a class='mod ' href='../header/index.html' title='Headers container, and common header fields.'>header</a><a class='mod ' href='../log/index.html' title='Log tools.'>log</a><a class='mod ' href='../mime/index.html' title=''>mime</a><a class='mod ' href='../plugin/index.html' title='Request and context plugins.'>plugin</a><a class='mod ' href='../response/index.html' title='Response writers.'>response</a><a class='mod current' href='../router/index.html' title='Routers stores request handlers, using an HTTP method and a path as keys.'>router</a><a class='mod ' href='../server/index.html' title='Server configuration and instance.'>server</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.HttpError.html' title='A set of errors that can occur parsing HTTP streams.'>HttpError</a><a class='enum ' href='../enum.Method.html' title='The Request Method (VERB)'>Method</a><a class='enum ' href='../enum.Protocol.html' title='HTTP or HTTPS'>Protocol</a><a class='enum ' href='../enum.StatusCode.html' title='An HTTP status code (`status-code` in RFC 7230 et al.).'>StatusCode</a></div><div class='block macro'><h2>Macros</h2><a class='macro ' href='../macro.content_type!.html' title='A macro for assigning content types.'>content_type!</a><a class='macro ' href='../macro.insert_routes!.html' title='The `insert_routes!` macro generates routes from the provided handlers and routing tree and adds them to the provided router. The router is then returned.'>insert_routes!</a></div>
     </section>
 
     <nav class="sub">
@@ -42,19 +42,23 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>router</a><wbr></span><span class='out-of-band'><span id='render-detail'>
-            <a id="collapse-all" href="#">[-]
-            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1467' href='../../src/rustful/router.rs.html#1-702'>[src]</a></span></h1>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-1475' href='../../src/rustful/router.rs.html#1-734'>[src]</a></span></h1>
 <div class='docblock'><p>Routers stores request handlers, using an HTTP method and a path as keys.</p>
 
 <p>The <code>TreeRouter</code>, for example, can be created from a vector of predefined paths, like this:</p>
 <pre id='rust-example-rendered' class='rust '>
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>TreeRouter</span>;
+
 <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>))
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>),
+    (<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>)
 ];
 
 <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
@@ -62,33 +66,34 @@
 
 <p>Routes may also be added after the router was created, like this:</p>
 <pre id='rust-example-rendered' class='rust '>
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::{<span class='ident'>Router</span>, <span class='ident'>TreeRouter</span>};
+
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
 
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>));
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>);
 </pre>
 
 <p>Routers can also be used with a special macro for creating routes, called <code>insert_routes!</code>:</p>
 <pre id='rust-example-rendered' class='rust '>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>phase</span>)]</span>
-<span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful_macros</span>;
-
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
-
-...
-
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>TreeRouter</span>;
 
 <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='macro'>insert_routes</span><span class='macro'>!</span>{
-    <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>(): {
-        <span class='string'>&quot;/about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>about_us</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
-        <span class='string'>&quot;/user/:user&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
-        <span class='string'>&quot;/product/:name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
-        <span class='string'>&quot;/*&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_error</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>),
-        <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_welcome</span> <span class='kw'>as</span> <span class='kw'>fn</span>(<span class='ident'>Context</span>, <span class='ident'>Response</span>)
+    <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>() <span class='op'>=&gt;</span> {
+        <span class='string'>&quot;/about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>about_us</span>,
+        <span class='string'>&quot;/user/:user&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span>,
+        <span class='string'>&quot;/product/:name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span>,
+        <span class='string'>&quot;/*&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_error</span>,
+        <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_welcome</span>
     }
 };
 </pre>
@@ -97,8 +102,6 @@
 but it allows more advanced structures to be defined without
 the need to write the same paths multiple times. This can be
 useful to lower the risk of typing errors, among other things.</p>
-
-<p>This can be found in the crate <code>rustful_macros</code>.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>

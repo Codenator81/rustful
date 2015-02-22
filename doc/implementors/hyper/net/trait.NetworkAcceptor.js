@@ -1,5 +1,4 @@
 (function() {var implementors = {};
-implementors['hyper'] = [];
 implementors['rustful'] = [];
 
             if (window.register_implementors) {

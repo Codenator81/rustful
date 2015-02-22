@@ -417,8 +417,8 @@
 <span class='doccomment'>///# let log = &amp;StdOut as &amp;Log;</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///let file = CachedFile::new(Path::new(&quot;/some/file/path.txt&quot;), None);</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///match *file.borrow(log) {</span>
+<span class='doccomment'>///let guard = file.borrow(log);</span>
+<span class='doccomment'>///match *guard {</span>
 <span class='doccomment'>///    Some(ref content) =&gt; println!(&quot;loaded file with {} bytes of data&quot;, content.len()),</span>
 <span class='doccomment'>///    None =&gt; println!(&quot;the file was not loaded&quot;)</span>
 <span class='doccomment'>///}</span>
@@ -506,8 +506,8 @@
 <span class='doccomment'>///}</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///let file = CachedProcessedFile::new(Path::new(&quot;/some/file/path.txt&quot;), None, get_size);</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///match *file.borrow(log) {</span>
+<span class='doccomment'>///let guard = file.borrow(log);</span>
+<span class='doccomment'>///match *guard {</span>
 <span class='doccomment'>///    Some(ref size) =&gt; println!(&quot;file contains {} bytes of data&quot;, size),</span>
 <span class='doccomment'>///    None =&gt; println!(&quot;the file was not loaded&quot;)</span>
 <span class='doccomment'>///}</span>

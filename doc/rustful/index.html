@@ -42,9 +42,8 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>rustful</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
-            <a id="collapse-all" href="#">[-]
-            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/rustful/lib.rs.html#1-62'>[src]</a></span></h1>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-0' href='../src/rustful/lib.rs.html#1-64'>[src]</a></span></h1>
 <h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use self::<a class='mod'
                                             href='./server/index.html'>server</a>::<a class='struct' href='../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>;</code></td></tr><tr><td><code>pub use self::<a class='mod'
@@ -125,6 +124,22 @@
                         <td class='docblock short'><p>Server configuration and instance.</p>
 </td>
                     </tr>
+                </table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='macro' href='macro.content_type!.html'
+                               title='rustful::content_type!'>content_type!</a></td>
+                        <td class='docblock short'><p>A macro for assigning content types.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='macro' href='macro.insert_routes!.html'
+                               title='rustful::insert_routes!'>insert_routes!</a></td>
+                        <td class='docblock short'><p>The <code>insert_routes!</code> macro generates routes from the provided handlers and routing tree and
+adds them to the provided router. The router is then returned.</p>
+</td>
+                    </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                     <tr>
@@ -151,7 +166,7 @@
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.StatusCode.html'
                                title='rustful::StatusCode'>StatusCode</a></td>
-                        <td class='docblock short'><p>An HTTP status code (<code>Status-Code</code> in RFC 2616).</p>
+                        <td class='docblock short'><p>An HTTP status code (<code>status-code</code> in RFC 7230 et al.).</p>
 </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>

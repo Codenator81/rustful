@@ -42,9 +42,8 @@
 
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>cache</a>::<wbr><a class='struct' href=''>CachedFile</a><wbr></span><span class='out-of-band'><span id='render-detail'>
-            <a id="collapse-all" href="#">[-]
-            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-3009' href='../../src/rustful/cache.rs.html#91-97'>[src]</a></span></h1>
+            <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-3017' href='../../src/rustful/cache.rs.html#91-97'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct CachedFile {
     // some fields omitted
 }</pre><div class='docblock'><p>Cached raw file content.</p>
@@ -54,8 +53,8 @@
 <span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>cache</span>::{<span class='ident'>CachedValue</span>, <span class='ident'>CachedFile</span>};
 
 <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>CachedFile</span>::<span class='ident'>new</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/some/file/path.txt&quot;</span>), <span class='prelude-val'>None</span>);
-
-<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>file</span>.<span class='ident'>borrow</span>(<span class='ident'>log</span>) {
+<span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>file</span>.<span class='ident'>borrow</span>(<span class='ident'>log</span>);
+<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>guard</span> {
     <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>content</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;loaded file with {} bytes of data&quot;</span>, <span class='ident'>content</span>.<span class='ident'>len</span>()),
     <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;the file was not loaded&quot;</span>)
 }
