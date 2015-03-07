@@ -9,7 +9,7 @@
 
     <title>server.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
     
@@ -503,6 +503,9 @@
 <span id="461">461</span>
 <span id="462">462</span>
 <span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Server configuration and instance.</span>
 
@@ -511,8 +514,9 @@
 <span class='kw'>use</span> <span class='ident'>std</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>RwLock</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>net</span>::<span class='ident'>ip</span>::{<span class='ident'>IpAddr</span>, <span class='ident'>Ipv4Addr</span>, <span class='ident'>Port</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::{<span class='ident'>IpAddr</span>, <span class='ident'>Ipv4Addr</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>;
 
 <span class='kw'>use</span> <span class='ident'>time</span>::{<span class='self'>self</span>, <span class='ident'>Timespec</span>};
 
@@ -535,7 +539,7 @@
 <span class='kw'>use</span> <span class='ident'>handler</span>::<span class='ident'>Handler</span>;
 <span class='kw'>use</span> <span class='ident'>response</span>::<span class='ident'>Response</span>;
 <span class='kw'>use</span> <span class='ident'>log</span>::{<span class='ident'>Log</span>, <span class='ident'>StdOut</span>};
-<span class='kw'>use</span> <span class='ident'>Protocol</span>;
+<span class='kw'>use</span> <span class='ident'>Scheme</span>;
 
 <span class='kw'>use</span> <span class='ident'>utils</span>;
 
@@ -560,18 +564,18 @@
 <span class='doccomment'>///    Err(e) =&gt; println!(&quot;could not start server: {}&quot;, e.description())</span>
 <span class='doccomment'>///}</span>
 <span class='doccomment'>///```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///One or several response handlers.</span>
     <span class='kw'>pub</span> <span class='ident'>handlers</span>: <span class='ident'>R</span>,
 
     <span class='doccomment'>///The port where the server will listen for requests.</span>
-    <span class='kw'>pub</span> <span class='ident'>port</span>: <span class='ident'>Port</span>,
+    <span class='kw'>pub</span> <span class='ident'>port</span>: <span class='ident'>u16</span>,
 
     <span class='doccomment'>///The host address where the server will listen for requests.</span>
     <span class='kw'>pub</span> <span class='ident'>host</span>: <span class='ident'>IpAddr</span>,
 
     <span class='doccomment'>///The type of HTTP protocol.</span>
-    <span class='kw'>pub</span> <span class='ident'>protocol</span>: <span class='ident'>Protocol</span>,
+    <span class='kw'>pub</span> <span class='ident'>protocol</span>: <span class='ident'>Scheme</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>///The number of threads to be used in the server task pool.</span>
     <span class='doccomment'>///The default (`None`) is based on recommendations from the system.</span>
@@ -601,21 +605,21 @@
     <span class='kw'>pub</span> <span class='ident'>response_plugins</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;&gt;</span>
 }
 
-<span class='kw'>impl</span> <span class='ident'>Server</span><span class='op'>&lt;</span>(), ()<span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, (), ()<span class='op'>&gt;</span> {
     <span class='doccomment'>///Create a new empty server which will listen on host address `0.0.0.0` and port `80`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span>(), ()<span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, (), ()<span class='op'>&gt;</span> {
         <span class='ident'>Server</span>::<span class='ident'>with_cache</span>(())
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>C</span>: <span class='ident'>Cache</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span>(), <span class='ident'>C</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>C</span>: <span class='ident'>Cache</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, (), <span class='ident'>C</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Create a new empty server with a cache.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_cache</span>(<span class='ident'>cache</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span>(), <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_cache</span>(<span class='ident'>cache</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, (), <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='ident'>Server</span> {
             <span class='ident'>handlers</span>: (),
             <span class='ident'>port</span>: <span class='number'>80</span>,
-            <span class='ident'>host</span>: <span class='ident'>Ipv4Addr</span>(<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>),
-            <span class='ident'>protocol</span>: <span class='ident'>Protocol</span>::<span class='ident'>Http</span>,
+            <span class='ident'>host</span>: <span class='ident'>IpAddr</span>::<span class='ident'>V4</span>(<span class='ident'>Ipv4Addr</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>)),
+            <span class='ident'>protocol</span>: <span class='ident'>Scheme</span>::<span class='ident'>Http</span>,
             <span class='ident'>threads</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>server</span>: <span class='string'>&quot;rustful&quot;</span>.<span class='ident'>to_owned</span>(),
             <span class='ident'>content_type</span>: <span class='ident'>Mime</span>(
@@ -632,9 +636,9 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Set request handlers.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>handlers</span><span class='op'>&lt;</span><span class='ident'>NewRouter</span>: <span class='ident'>Router</span><span class='op'>&lt;</span><span class='ident'>Handler</span><span class='op'>=</span><span class='ident'>H</span><span class='op'>&gt;</span>, <span class='ident'>H</span>: <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;&gt;</span>(<span class='self'>self</span>, <span class='ident'>handlers</span>: <span class='ident'>NewRouter</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>NewRouter</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>handlers</span><span class='op'>&lt;</span><span class='ident'>NewRouter</span>: <span class='ident'>Router</span><span class='op'>&lt;</span><span class='ident'>Handler</span><span class='op'>=</span><span class='ident'>H</span><span class='op'>&gt;</span>, <span class='ident'>H</span>: <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;&gt;</span>(<span class='self'>self</span>, <span class='ident'>handlers</span>: <span class='ident'>NewRouter</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>NewRouter</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='ident'>Server</span> {
             <span class='ident'>handlers</span>: <span class='ident'>handlers</span>,
             <span class='ident'>port</span>: <span class='self'>self</span>.<span class='ident'>port</span>,
@@ -652,20 +656,20 @@
     }
 
     <span class='doccomment'>///Change the port. Default is `80`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>port</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>port</span>: <span class='ident'>Port</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>port</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>port</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>port</span> <span class='op'>=</span> <span class='ident'>port</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Change the host address. Default is `0.0.0.0`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>host</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>host</span>: <span class='ident'>IpAddr</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>host</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>host</span>: <span class='ident'>IpAddr</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>host</span> <span class='op'>=</span> <span class='ident'>host</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Change the protocol to HTTPS.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>https</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>cert</span>: <span class='ident'>Path</span>, <span class='ident'>key</span>: <span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>protocol</span> <span class='op'>=</span> <span class='ident'>Protocol</span>::<span class='ident'>Https</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>https</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>cert</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>path</span>::<span class='ident'>Path</span>, <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>path</span>::<span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+        <span class='self'>self</span>.<span class='ident'>protocol</span> <span class='op'>=</span> <span class='ident'>Scheme</span>::<span class='ident'>Https</span> {
             <span class='ident'>cert</span>: <span class='ident'>cert</span>,
             <span class='ident'>key</span>: <span class='ident'>key</span>
         };
@@ -676,7 +680,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///Passing `None` will set it to the default number of threads,</span>
     <span class='doccomment'>///based on recommendations from the system.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>threads</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>threads</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>threads</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>threads</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>threads</span> <span class='op'>=</span> <span class='ident'>threads</span>;
         <span class='self'>self</span>
     }
@@ -684,45 +688,45 @@
     <span class='doccomment'>///Set the minimal number of seconds between each cache clean.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///Passing `None` disables cache cleaning.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cache_clean_interval</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>interval</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cache_clean_interval</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>interval</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>cache_clean_interval</span> <span class='op'>=</span> <span class='ident'>interval</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>i64</span>);
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Change the server response header. Default is `rustful`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>server_name</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>server_name</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>server</span> <span class='op'>=</span> <span class='ident'>name</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Change the default content type. Default is `text/plain`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>content_type</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>content_type</span>: <span class='ident'>Mime</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>content_type</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>content_type</span>: <span class='ident'>Mime</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>content_type</span> <span class='op'>=</span> <span class='ident'>content_type</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Change log tool. Default is to print to standard output.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>log</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Log</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>log</span>: <span class='ident'>L</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>log</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Log</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>log</span>: <span class='ident'>L</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>log</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>log</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Log</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>;
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Add a context plugin to the plugin stack.</span>
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_context_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ContextPlugin</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_context_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ContextPlugin</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>context_plugins</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>plugin</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ContextPlugin</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>);
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Add a response plugin to the plugin stack.</span>
     <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_response_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_response_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>response_plugins</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>plugin</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>);
         <span class='self'>self</span>
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>H</span>, <span class='ident'>C</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>H</span>, <span class='ident'>C</span><span class='op'>&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span>
     <span class='kw'>where</span>
     <span class='ident'>R</span>: <span class='ident'>Router</span><span class='op'>&lt;</span><span class='ident'>Handler</span><span class='op'>=</span><span class='ident'>H</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
     <span class='ident'>H</span>: <span class='ident'>Handler</span><span class='op'>&lt;</span><span class='ident'>Cache</span><span class='op'>=</span><span class='ident'>C</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
@@ -732,19 +736,21 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>run</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>hyper</span>::<span class='ident'>HttpResult</span><span class='op'>&lt;</span><span class='ident'>Listening</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>threads</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>threads</span>;
         <span class='kw'>let</span> (<span class='ident'>server</span>, <span class='ident'>protocol</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build</span>();
+        <span class='kw'>let</span> <span class='ident'>host</span> <span class='op'>=</span> <span class='ident'>server</span>.<span class='ident'>host</span>;
+        <span class='kw'>let</span> <span class='ident'>port</span> <span class='op'>=</span> <span class='ident'>server</span>.<span class='ident'>port</span>;
         <span class='kw'>let</span> <span class='ident'>http</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>protocol</span> {
-            <span class='ident'>Protocol</span>::<span class='ident'>Http</span> <span class='op'>=&gt;</span> <span class='ident'>hyper</span>::<span class='ident'>server</span>::<span class='ident'>Server</span>::<span class='ident'>http</span>(<span class='ident'>server</span>.<span class='ident'>host</span>, <span class='ident'>server</span>.<span class='ident'>port</span>),
-            <span class='ident'>Protocol</span>::<span class='ident'>Https</span> {<span class='ident'>cert</span>, <span class='ident'>key</span>} <span class='op'>=&gt;</span> <span class='ident'>hyper</span>::<span class='ident'>server</span>::<span class='ident'>Server</span>::<span class='ident'>https</span>(<span class='ident'>server</span>.<span class='ident'>host</span>, <span class='ident'>server</span>.<span class='ident'>port</span>, <span class='ident'>cert</span>, <span class='ident'>key</span>)
+            <span class='ident'>Scheme</span>::<span class='ident'>Http</span> <span class='op'>=&gt;</span> <span class='ident'>hyper</span>::<span class='ident'>server</span>::<span class='ident'>Server</span>::<span class='ident'>http</span>(<span class='ident'>server</span>),
+            <span class='ident'>Scheme</span>::<span class='ident'>Https</span> {<span class='ident'>cert</span>, <span class='ident'>key</span>} <span class='op'>=&gt;</span> <span class='ident'>hyper</span>::<span class='ident'>server</span>::<span class='ident'>Server</span>::<span class='ident'>https</span>(<span class='ident'>server</span>, <span class='ident'>cert</span>, <span class='ident'>key</span>)
         };
 
         <span class='kw'>match</span> <span class='ident'>threads</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>threads</span>) <span class='op'>=&gt;</span> <span class='ident'>http</span>.<span class='ident'>listen_threads</span>(<span class='ident'>server</span>, <span class='ident'>threads</span>),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>http</span>.<span class='ident'>listen</span>(<span class='ident'>server</span>)
+            <span class='prelude-val'>Some</span>(<span class='ident'>threads</span>) <span class='op'>=&gt;</span> <span class='ident'>http</span>.<span class='ident'>listen_threads</span>(<span class='ident'>host</span>, <span class='ident'>port</span>, <span class='ident'>threads</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>http</span>.<span class='ident'>listen</span>(<span class='ident'>host</span>, <span class='ident'>port</span>)
         }
     }
 
     <span class='doccomment'>///Build a runnable instance of the server.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>ServerInstance</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span>, <span class='ident'>Protocol</span>) {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>ServerInstance</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span>, <span class='ident'>Scheme</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span><span class='op'>&gt;</span>) {
         (<span class='ident'>ServerInstance</span> {
             <span class='ident'>handlers</span>: <span class='self'>self</span>.<span class='ident'>handlers</span>,
             <span class='ident'>port</span>: <span class='self'>self</span>.<span class='ident'>port</span>,
@@ -780,7 +786,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ServerInstance</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
     <span class='ident'>handlers</span>: <span class='ident'>R</span>,
 
-    <span class='ident'>port</span>: <span class='ident'>Port</span>,
+    <span class='ident'>port</span>: <span class='ident'>u16</span>,
     <span class='ident'>host</span>: <span class='ident'>IpAddr</span>,
 
     <span class='ident'>server</span>: <span class='ident'>String</span>,
@@ -1007,13 +1013,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script async src="../../../search-index.js"></script>
 </body>
 </html>

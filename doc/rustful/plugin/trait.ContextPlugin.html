@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>plugin</a></p><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ContextAction.html' title='The result from a context plugin.'>ContextAction</a><a class='enum ' href='enum.ResponseAction.html' title='The result from a `ResponsePlugin`.'>ResponseAction</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.ContextPlugin.html' title='A trait for context plugins.'>ContextPlugin</a><a class='trait ' href='trait.ResponsePlugin.html' title='A trait for response plugins.'>ResponsePlugin</a></div>
+        <p class='location'><a href='../index.html'>rustful</a>::<wbr><a href='index.html'>plugin</a></p><script>window.sidebarCurrent = {name: 'ContextPlugin', ty: 'trait', relpath: ''};</script><script async src="sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -43,11 +43,11 @@
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>plugin</a>::<wbr><a class='trait' href=''>ContextPlugin</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5700' href='../../src/rustful/plugin.rs.html#17-23'>[src]</a></span></h1>
+        </span><a id='src-5465' href='../../src/rustful/plugin.rs.html#17-23'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ContextPlugin {
     type Cache;
 
-    fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::<a class='trait' href='../../rustful/plugin/trait.ContextPlugin.html' title='rustful::plugin::ContextPlugin'>Cache</a>&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a>;
+    fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::Cache&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a>;
 }</pre><div class='docblock'><p>A trait for context plugins.</p>
 
 <p>They are able to modify and react to a <code>Context</code> before it&#39;s sent to the handler.</p>
@@ -57,7 +57,7 @@
         <h3 id='associatedtype.Cache' class='method'><a class='stability Unmarked' title='No stability level'></a><code>type Cache</code></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.modify' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::<a class='trait' href='../../rustful/plugin/trait.ContextPlugin.html' title='rustful::plugin::ContextPlugin'>Cache</a>&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a></code></h3><div class='docblock'><p>Try to modify the <code>Context</code>.</p>
+        <h3 id='tymethod.modify' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::Cache&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a></code></h3><div class='docblock'><p>Try to modify the <code>Context</code>.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>

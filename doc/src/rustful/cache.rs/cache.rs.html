@@ -9,7 +9,7 @@
 
     <title>cache.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
     
@@ -333,13 +333,29 @@
 <span id="291">291</span>
 <span id="292">292</span>
 <span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Traits and implementations for cached resources.</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::{<span class='ident'>File</span>, <span class='ident'>IoResult</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::<span class='ident'>fs</span>::<span class='ident'>PathExtensions</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Read</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::{<span class='ident'>File</span>, <span class='ident'>PathExt</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>RwLock</span>, <span class='ident'>RwLockReadGuard</span>};
 
 <span class='kw'>use</span> <span class='ident'>time</span>;
@@ -412,11 +428,12 @@
 <span class='doccomment'>///The whole file will be loaded when accessed.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///```rust</span>
+<span class='doccomment'>///use std::path;</span>
 <span class='doccomment'>///use rustful::cache::{CachedValue, CachedFile};</span>
 <span class='doccomment'>///# use rustful::log::{Log, StdOut};</span>
 <span class='doccomment'>///# let log = &amp;StdOut as &amp;Log;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///let file = CachedFile::new(Path::new(&quot;/some/file/path.txt&quot;), None);</span>
+<span class='doccomment'>///let file = CachedFile::new(&amp;path::Path::new(&quot;/some/file/path.txt&quot;), None);</span>
 <span class='doccomment'>///let guard = file.borrow(log);</span>
 <span class='doccomment'>///match *guard {</span>
 <span class='doccomment'>///    Some(ref content) =&gt; println!(&quot;loaded file with {} bytes of data&quot;, content.len()),</span>
@@ -424,8 +441,8 @@
 <span class='doccomment'>///}</span>
 <span class='doccomment'>///```</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CachedFile</span> {
-    <span class='ident'>path</span>: <span class='ident'>Path</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CachedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> {
+    <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;p</span> <span class='ident'>path</span>::<span class='ident'>Path</span>,
     <span class='ident'>file</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>,
     <span class='ident'>modified</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
     <span class='ident'>last_accessed</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>Timespec</span><span class='op'>&gt;</span>,
@@ -433,9 +450,9 @@
 }
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>impl</span> <span class='ident'>CachedFile</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> <span class='ident'>CachedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Creates a new `CachedFile` which will be freed `unused_after` seconds after the latest access.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='ident'>Path</span>, <span class='ident'>unused_after</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>CachedFile</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;p</span> <span class='ident'>path</span>::<span class='ident'>Path</span>, <span class='ident'>unused_after</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>CachedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> {
         <span class='ident'>CachedFile</span> {
             <span class='ident'>path</span>: <span class='ident'>path</span>,
             <span class='ident'>file</span>: <span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
@@ -446,7 +463,7 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>CachedValue</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>CachedFile</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> <span class='ident'>CachedValue</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>CachedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>borrow_current</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) <span class='op'>-&gt;</span> <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>unused_after</span>.<span class='ident'>is_some</span>() {
             <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>last_accessed</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>get_time</span>();
@@ -456,8 +473,16 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>load</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) {
-        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>stat</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>modified</span>).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
-        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>file</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>path</span>).<span class='ident'>read_to_end</span>().<span class='ident'>ok</span>();
+        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>metadata</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>modified</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='self'>self</span>.<span class='ident'>path</span>) {
+            <span class='prelude-val'>Ok</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>f</span>.<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>),
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> {
+                <span class='ident'>log</span>.<span class='ident'>error</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;could not open file {}: {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>display</span>(), <span class='ident'>e</span>));
+                <span class='prelude-val'>Err</span>(<span class='ident'>e</span>)
+            }
+        };
+        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>file</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='ident'>res</span>.<span class='ident'>ok</span>().<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>buf</span>);
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>unused_after</span>.<span class='ident'>is_some</span>() {
             <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>last_accessed</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>get_time</span>();
@@ -470,7 +495,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>expired</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>file</span>.<span class='ident'>read</span>()).<span class='ident'>is_some</span>() {
-            <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>stat</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>modified</span> <span class='op'>&gt;</span> <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>read</span>())).<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>)
+            <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>metadata</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>modified</span>() <span class='op'>&gt;</span> <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>read</span>())).<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>)
         } <span class='kw'>else</span> {
             <span class='boolval'>true</span>
         }
@@ -496,16 +521,18 @@
 <span class='doccomment'>///each time it is loaded and the result will be stored.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///```rust</span>
-<span class='doccomment'>///use std::old_io::{File, IoResult};</span>
+<span class='doccomment'>///use std::io;</span>
+<span class='doccomment'>///use std::path;</span>
+<span class='doccomment'>///use std::fs::{File, PathExt};</span>
 <span class='doccomment'>///use rustful::cache::{CachedValue, CachedProcessedFile};</span>
 <span class='doccomment'>///# use rustful::log::{Log, StdOut};</span>
 <span class='doccomment'>///# let log = &amp;StdOut as &amp;Log;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///fn get_size(_log: &amp;Log, file: IoResult&lt;File&gt;) -&gt; IoResult&lt;Option&lt;u64&gt;&gt; {</span>
-<span class='doccomment'>///    file.and_then(|mut file| file.stat()).map(|stat| Some(stat.size))</span>
+<span class='doccomment'>///fn get_size(_log: &amp;Log, file: io::Result&lt;File&gt;) -&gt; io::Result&lt;Option&lt;u64&gt;&gt; {</span>
+<span class='doccomment'>///    file.and_then(|mut file| file.metadata()).map(|m| Some(m.len()))</span>
 <span class='doccomment'>///}</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///let file = CachedProcessedFile::new(Path::new(&quot;/some/file/path.txt&quot;), None, get_size);</span>
+<span class='doccomment'>///let file = CachedProcessedFile::new(&amp;path::Path::new(&quot;/some/file/path.txt&quot;), None, get_size);</span>
 <span class='doccomment'>///let guard = file.borrow(log);</span>
 <span class='doccomment'>///match *guard {</span>
 <span class='doccomment'>///    Some(ref size) =&gt; println!(&quot;file contains {} bytes of data&quot;, size),</span>
@@ -513,20 +540,20 @@
 <span class='doccomment'>///}</span>
 <span class='doccomment'>///```</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='ident'>path</span>: <span class='ident'>Path</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;p</span> <span class='ident'>path</span>::<span class='ident'>Path</span>,
     <span class='ident'>file</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>,
     <span class='ident'>modified</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
     <span class='ident'>last_accessed</span>: <span class='ident'>RwLock</span><span class='op'>&lt;</span><span class='ident'>Timespec</span><span class='op'>&gt;</span>,
     <span class='ident'>unused_after</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i64</span><span class='op'>&gt;</span>,
-    <span class='ident'>processor</span>: <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>
+    <span class='ident'>processor</span>: <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>
 }
 
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span>, <span class='ident'>T</span>: <span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Creates a new `CachedProcessedFile` which will be freed `unused_after` seconds after the latest access.</span>
     <span class='doccomment'>///The file will be processed by the provided `processor` function each time it&#39;s loaded.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='ident'>Path</span>, <span class='ident'>unused_after</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>, <span class='ident'>processor</span>: <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;p</span> <span class='ident'>path</span>::<span class='ident'>Path</span>, <span class='ident'>unused_after</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>, <span class='ident'>processor</span>: <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='ident'>CachedProcessedFile</span> {
             <span class='ident'>path</span>: <span class='ident'>path</span>,
             <span class='ident'>file</span>: <span class='ident'>RwLock</span>::<span class='ident'>new</span>(<span class='prelude-val'>None</span>),
@@ -538,7 +565,7 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>CachedValue</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;p</span>, <span class='ident'>T</span>: <span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;</span> <span class='ident'>CachedValue</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>CachedProcessedFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;p</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>borrow_current</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) <span class='op'>-&gt;</span> <span class='ident'>RwLockReadGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>unused_after</span>.<span class='ident'>is_some</span>() {
             <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>last_accessed</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>get_time</span>();
@@ -548,7 +575,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>load</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) {
-        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>stat</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>modified</span>).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+        <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>write</span>()) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>metadata</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>modified</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
         <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>file</span>.<span class='ident'>write</span>()) <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>processor</span>)(<span class='ident'>log</span>, <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>path</span>)).<span class='ident'>ok</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>result</span><span class='op'>|</span> <span class='ident'>result</span>);
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>unused_after</span>.<span class='ident'>is_some</span>() {
@@ -562,7 +589,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>expired</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>if</span> <span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>file</span>.<span class='ident'>read</span>()).<span class='ident'>is_some</span>() {
-            <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>stat</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>modified</span> <span class='op'>&gt;</span> <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>read</span>())).<span class='ident'>unwrap_or</span>(<span class='boolval'>true</span>)
+            <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>metadata</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>modified</span>() <span class='op'>&gt;</span> <span class='op'>*</span><span class='macro'>unwrap_mutex</span><span class='macro'>!</span>(<span class='ident'>log</span>, <span class='self'>self</span>.<span class='ident'>modified</span>.<span class='ident'>read</span>())).<span class='ident'>unwrap_or</span>(<span class='boolval'>true</span>)
         } <span class='kw'>else</span> {
             <span class='boolval'>true</span>
         }
@@ -583,7 +610,9 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>old_io</span>::{<span class='ident'>File</span>, <span class='ident'>IoResult</span>};
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Read</span>};
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>;
     <span class='kw'>use</span> <span class='ident'>cache</span>::{<span class='ident'>CachedValue</span>, <span class='ident'>CachedFile</span>, <span class='ident'>CachedProcessedFile</span>};
     <span class='kw'>use</span> <span class='ident'>log</span>::{<span class='ident'>Log</span>, <span class='prelude-ty'>Result</span>};
 
@@ -604,7 +633,7 @@
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>file</span>() {
         <span class='kw'>let</span> <span class='ident'>log</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>DummyLog</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Log</span>;
-        <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>CachedFile</span>::<span class='ident'>new</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;LICENSE&quot;</span>), <span class='prelude-val'>None</span>);
+        <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>CachedFile</span>::<span class='ident'>new</span>(<span class='ident'>path</span>::<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;LICENSE&quot;</span>), <span class='prelude-val'>None</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>expired</span>(<span class='ident'>log</span>), <span class='boolval'>true</span>);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>borrow</span>(<span class='ident'>log</span>).<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>v</span>.<span class='ident'>len</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>&gt;</span> <span class='number'>0</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>expired</span>(<span class='ident'>log</span>), <span class='boolval'>false</span>);
@@ -614,12 +643,13 @@
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>modified_file</span>() {
-        <span class='kw'>fn</span> <span class='ident'>just_read</span>(<span class='ident'>_log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='kw-2'>mut</span> <span class='ident'>file</span>: <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
-            <span class='ident'>file</span>.<span class='ident'>read_to_end</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>))
+        <span class='kw'>fn</span> <span class='ident'>just_read</span>(<span class='ident'>_log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>, <span class='ident'>file</span>: <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>File</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>file</span>).<span class='ident'>read_to_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='prelude-val'>Some</span>(<span class='ident'>buf</span>))
         }
 
         <span class='kw'>let</span> <span class='ident'>log</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>DummyLog</span> <span class='kw'>as</span> <span class='kw-2'>&amp;</span><span class='ident'>Log</span>;
-        <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>CachedProcessedFile</span>::<span class='ident'>new</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;LICENSE&quot;</span>), <span class='prelude-val'>None</span>, <span class='ident'>just_read</span>);
+        <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>CachedProcessedFile</span>::<span class='ident'>new</span>(<span class='ident'>path</span>::<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;LICENSE&quot;</span>), <span class='prelude-val'>None</span>, <span class='ident'>just_read</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>expired</span>(<span class='ident'>log</span>), <span class='boolval'>true</span>);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>borrow</span>(<span class='ident'>log</span>).<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>v</span>.<span class='ident'>len</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>&gt;</span> <span class='number'>0</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>expired</span>(<span class='ident'>log</span>), <span class='boolval'>false</span>);
@@ -667,13 +697,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script async src="../../../search-index.js"></script>
 </body>
 </html>

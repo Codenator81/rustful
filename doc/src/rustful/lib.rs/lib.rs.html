@@ -9,7 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
     
@@ -111,13 +111,13 @@
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;http://ogeon.github.io/rustful/doc/&quot;</span>)]</span>
 
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>unsafe_destructor</span>, <span class='ident'>old_impl_check</span>, <span class='ident'>old_io</span>, <span class='ident'>collections</span>, <span class='ident'>std_misc</span>, <span class='ident'>core</span>, <span class='ident'>old_path</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>unsafe_destructor</span>, <span class='ident'>old_impl_check</span>, <span class='ident'>io</span>, <span class='ident'>fs_time</span>, <span class='ident'>path_ext</span>, <span class='ident'>path</span>, <span class='ident'>net</span>, <span class='ident'>collections</span>, <span class='ident'>std_misc</span>, <span class='ident'>core</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>test</span>, <span class='ident'>feature</span>(<span class='ident'>test</span>))]</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>tempdir</span>;
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
@@ -154,7 +154,7 @@
 
 <span class='doccomment'>///HTTP or HTTPS</span>
 <span class='attribute'>#[<span class='ident'>stable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Protocol</span> {
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Scheme</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Standard HTTP.</span>
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='ident'>Http</span>,
@@ -163,10 +163,10 @@
     <span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='ident'>Https</span> {
         <span class='doccomment'>///Path to SSL certificate.</span>
-        <span class='ident'>cert</span>: <span class='ident'>Path</span>,
+        <span class='ident'>cert</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>,
 
         <span class='doccomment'>///Path to key file.</span>
-        <span class='ident'>key</span>: <span class='ident'>Path</span>
+        <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>
     }
 }
 </pre>
@@ -209,13 +209,13 @@
     
 
     <script>
-        window.rootPath = "../../";
+        window.rootPath = "../../../";
         window.currentCrate = "rustful";
         window.playgroundUrl = "";
     </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script async src="../../../search-index.js"></script>
 </body>
 </html>

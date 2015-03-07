@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>rustful</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../cache/index.html' title='Traits and implementations for cached resources.'>cache</a><a class='mod ' href='../context/index.html' title='Handler context and request body reading extensions.'>context</a><a class='mod ' href='../handler/index.html' title='Request handlers.'>handler</a><a class='mod current' href='../header/index.html' title='Headers container, and common header fields.'>header</a><a class='mod ' href='../log/index.html' title='Log tools.'>log</a><a class='mod ' href='../mime/index.html' title=''>mime</a><a class='mod ' href='../plugin/index.html' title='Request and context plugins.'>plugin</a><a class='mod ' href='../response/index.html' title='Response writers.'>response</a><a class='mod ' href='../router/index.html' title='Routers stores request handlers, using an HTTP method and a path as keys.'>router</a><a class='mod ' href='../server/index.html' title='Server configuration and instance.'>server</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.HttpError.html' title='A set of errors that can occur parsing HTTP streams.'>HttpError</a><a class='enum ' href='../enum.Method.html' title='The Request Method (VERB)'>Method</a><a class='enum ' href='../enum.Protocol.html' title='HTTP or HTTPS'>Protocol</a><a class='enum ' href='../enum.StatusCode.html' title='An HTTP status code (`status-code` in RFC 7230 et al.).'>StatusCode</a></div><div class='block macro'><h2>Macros</h2><a class='macro ' href='../macro.content_type!.html' title='A macro for assigning content types.'>content_type!</a><a class='macro ' href='../macro.insert_routes!.html' title='The `insert_routes!` macro generates routes from the provided handlers and routing tree and adds them to the provided router. The router is then returned.'>insert_routes!</a></div>
+        <p class='location'><a href='../index.html'>rustful</a></p><script>window.sidebarCurrent = {name: 'header', ty: 'mod', relpath: '../'};</script><script async src="../sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -64,6 +64,13 @@ are already provided, such as <code>Host</code>, <code>ContentType</code>, <code
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Accept.html'
                                title='rustful::header::Accept'>Accept</a></td>
                         <td class='docblock short'><p>The <code>Accept</code> header.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.AcceptCharset.html'
+                               title='rustful::header::AcceptCharset'>AcceptCharset</a></td>
+                        <td class='docblock short'><p>The <code>Accept-Charset</code> header</p>
 </td>
                     </tr>
                 
@@ -270,6 +277,13 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     </tr>
                 
                     <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Quality.html'
+                               title='rustful::header::Quality'>Quality</a></td>
+                        <td class='docblock short'><p>Represents a quality used in quality values.</p>
+</td>
+                    </tr>
+                
+                    <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.QualityItem.html'
                                title='rustful::header::QualityItem'>QualityItem</a></td>
                         <td class='docblock short'><p>Represents an item with a quality value as defined in
@@ -332,6 +346,13 @@ part of <a href="http://www.w3.org/TR/cors/">CORS</a>.</p>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.CacheDirective.html'
                                title='rustful::header::CacheDirective'>CacheDirective</a></td>
                         <td class='docblock short'><p>CacheControl contains a list of these directives.</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.Charset.html'
+                               title='rustful::header::Charset'>Charset</a></td>
+                        <td class='docblock short'><p>A Mime charset.</p>
 </td>
                     </tr>
                 
@@ -409,6 +430,13 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.1.4">https://too
                     </tr>
                 </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.q.html'
+                               title='rustful::header::q'>q</a></td>
+                        <td class='docblock short'><p>Convenience function to create a <code>Quality</code> fromt a float.</p>
+</td>
+                    </tr>
+                
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='fn' href='fn.qitem.html'
                                title='rustful::header::qitem'>qitem</a></td>
