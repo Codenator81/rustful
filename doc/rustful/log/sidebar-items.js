@@ -1,1 +1,1 @@
-initSidebarItems({"type":[["Result",""]],"trait":[["Log","Common trait for log tools."]],"struct":[["File","Log tool for printing to a file."],["StdOut","Log tool for printing to standard output."]]});
+initSidebarItems({"struct":[["File","Log tool for printing to a file."],["StdOut","Log tool for printing to standard output."]],"type":[["Result",""]],"trait":[["Log","Common trait for log tools."]]});
