@@ -774,10 +774,85 @@
 <span id="732">732</span>
 <span id="733">733</span>
 <span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Routers stores request handlers, using an HTTP method and a path as keys.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!The `TreeRouter`, for example, can be created from a vector of predefined paths, like this:</span>
+<span class='doccomment'>//!Rustful provides a tree structured all-round router called `TreeRouter`,</span>
+<span class='doccomment'>//!but any other type of router can be used, as long as it implements the</span>
+<span class='doccomment'>//!`Router` trait. This will also make it possible to initialize it using the</span>
+<span class='doccomment'>//!`insert_routes!` macro:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!```</span>
 <span class='doccomment'>//!#[macro_use]</span>
@@ -795,25 +870,37 @@
 <span class='doccomment'>//!# fn main() {</span>
 <span class='doccomment'>//!# let about_us = DummyHandler;</span>
 <span class='doccomment'>//!# let show_user = DummyHandler;</span>
+<span class='doccomment'>//!# let list_users = DummyHandler;</span>
 <span class='doccomment'>//!# let show_product = DummyHandler;</span>
+<span class='doccomment'>//!# let list_products = DummyHandler;</span>
 <span class='doccomment'>//!# let show_error = DummyHandler;</span>
 <span class='doccomment'>//!# let show_welcome = DummyHandler;</span>
-<span class='doccomment'>//!let routes = vec![</span>
-<span class='doccomment'>//!    (Get, &quot;/about&quot;, about_us),</span>
-<span class='doccomment'>//!    (Get, &quot;/user/:user&quot;, show_user),</span>
-<span class='doccomment'>//!    (Get, &quot;/product/:name&quot;, show_product),</span>
-<span class='doccomment'>//!    (Get, &quot;/*&quot;, show_error),</span>
-<span class='doccomment'>//!    (Get, &quot;/&quot;, show_welcome)</span>
-<span class='doccomment'>//!];</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!let router = TreeRouter::from_routes(routes);</span>
+<span class='doccomment'>//!let router = insert_routes!{</span>
+<span class='doccomment'>//!    TreeRouter::new() =&gt; {</span>
+<span class='doccomment'>//!        &quot;/about&quot; =&gt; Get: about_us,</span>
+<span class='doccomment'>//!        &quot;/users&quot; =&gt; {</span>
+<span class='doccomment'>//!            &quot;/&quot; =&gt; Get: list_users,</span>
+<span class='doccomment'>//!            &quot;:id&quot; =&gt; Get: show_user</span>
+<span class='doccomment'>//!        },</span>
+<span class='doccomment'>//!        &quot;/products&quot; =&gt; {</span>
+<span class='doccomment'>//!            &quot;/&quot; =&gt; Get: list_products,</span>
+<span class='doccomment'>//!            &quot;:id&quot; =&gt; Get: show_product</span>
+<span class='doccomment'>//!        },</span>
+<span class='doccomment'>//!        &quot;/*&quot; =&gt; Get: show_error,</span>
+<span class='doccomment'>//!        &quot;/&quot; =&gt; Get: show_welcome</span>
+<span class='doccomment'>//!    }</span>
+<span class='doccomment'>//!};</span>
 <span class='doccomment'>//!# }</span>
 <span class='doccomment'>//!```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!Routes may also be added after the router was created, like this:</span>
+<span class='doccomment'>//!This macro creates the same structure as the example below, but it allows</span>
+<span class='doccomment'>//!tree structures to be defined without the need to write the same paths</span>
+<span class='doccomment'>//!multiple times. This can be useful to lower the risk of typing errors,</span>
+<span class='doccomment'>//!among other things.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!Routes may also be added using the insert method, like this:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!```</span>
-<span class='doccomment'>//!#[macro_use]</span>
 <span class='doccomment'>//!extern crate rustful;</span>
 <span class='doccomment'>//!use rustful::Method::Get;</span>
 <span class='doccomment'>//!use rustful::{Router, TreeRouter};</span>
@@ -828,56 +915,22 @@
 <span class='doccomment'>//!# fn main() {</span>
 <span class='doccomment'>//!# let about_us = DummyHandler;</span>
 <span class='doccomment'>//!# let show_user = DummyHandler;</span>
+<span class='doccomment'>//!# let list_users = DummyHandler;</span>
 <span class='doccomment'>//!# let show_product = DummyHandler;</span>
+<span class='doccomment'>//!# let list_products = DummyHandler;</span>
 <span class='doccomment'>//!# let show_error = DummyHandler;</span>
 <span class='doccomment'>//!# let show_welcome = DummyHandler;</span>
 <span class='doccomment'>//!let mut router = TreeRouter::new();</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//!router.insert(Get, &quot;/about&quot;, about_us);</span>
-<span class='doccomment'>//!router.insert(Get, &quot;/user/:user&quot;, show_user);</span>
-<span class='doccomment'>//!router.insert(Get, &quot;/product/:name&quot;, show_product);</span>
+<span class='doccomment'>//!router.insert(Get, &quot;/users&quot;, list_users);</span>
+<span class='doccomment'>//!router.insert(Get, &quot;/users/:id&quot;, show_user);</span>
+<span class='doccomment'>//!router.insert(Get, &quot;/products&quot;, list_products);</span>
+<span class='doccomment'>//!router.insert(Get, &quot;/products/:id&quot;, show_product);</span>
 <span class='doccomment'>//!router.insert(Get, &quot;/*&quot;, show_error);</span>
 <span class='doccomment'>//!router.insert(Get, &quot;/&quot;, show_welcome);</span>
 <span class='doccomment'>//!# }</span>
 <span class='doccomment'>//!```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!Routers can also be used with a special macro for creating routes, called `insert_routes!`:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!```</span>
-<span class='doccomment'>//!#[macro_use]</span>
-<span class='doccomment'>//!extern crate rustful;</span>
-<span class='doccomment'>//!use rustful::Method::Get;</span>
-<span class='doccomment'>//!use rustful::TreeRouter;</span>
-<span class='doccomment'>//!# use rustful::{Handler, Context, Response};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!# #[derive(Copy)]</span>
-<span class='doccomment'>//!# struct DummyHandler;</span>
-<span class='doccomment'>//!# impl Handler for DummyHandler {</span>
-<span class='doccomment'>//!#     type Cache = ();</span>
-<span class='doccomment'>//!#     fn handle_request(&amp;self, _: Context, _: Response){}</span>
-<span class='doccomment'>//!# }</span>
-<span class='doccomment'>//!# fn main() {</span>
-<span class='doccomment'>//!# let about_us = DummyHandler;</span>
-<span class='doccomment'>//!# let show_user = DummyHandler;</span>
-<span class='doccomment'>//!# let show_product = DummyHandler;</span>
-<span class='doccomment'>//!# let show_error = DummyHandler;</span>
-<span class='doccomment'>//!# let show_welcome = DummyHandler;</span>
-<span class='doccomment'>//!let router = insert_routes!{</span>
-<span class='doccomment'>//!    TreeRouter::new() =&gt; {</span>
-<span class='doccomment'>//!        &quot;/about&quot; =&gt; Get: about_us,</span>
-<span class='doccomment'>//!        &quot;/user/:user&quot; =&gt; Get: show_user,</span>
-<span class='doccomment'>//!        &quot;/product/:name&quot; =&gt; Get: show_product,</span>
-<span class='doccomment'>//!        &quot;/*&quot; =&gt; Get: show_error,</span>
-<span class='doccomment'>//!        &quot;/&quot; =&gt; Get: show_welcome</span>
-<span class='doccomment'>//!    }</span>
-<span class='doccomment'>//!};</span>
-<span class='doccomment'>//!# }</span>
-<span class='doccomment'>//!```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//!This macro will generate the same code as the example above,</span>
-<span class='doccomment'>//!but it allows more advanced structures to be defined without</span>
-<span class='doccomment'>//!the need to write the same paths multiple times. This can be</span>
-<span class='doccomment'>//!useful to lower the risk of typing errors, among other things.</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
@@ -885,6 +938,10 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_map</span>::<span class='ident'>Entry</span>::{<span class='ident'>Occupied</span>, <span class='ident'>Vacant</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>::<span class='ident'>Vec</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::{<span class='ident'>Iterator</span>, <span class='ident'>IntoIterator</span>, <span class='ident'>FromIterator</span>, <span class='ident'>FlatMap</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>SplitTerminator</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>slice</span>::<span class='ident'>Iter</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>method</span>::<span class='ident'>Method</span>;
 
 <span class='kw'>use</span> <span class='ident'>handler</span>::<span class='ident'>Handler</span>;
@@ -893,27 +950,113 @@
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>RouterResult</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>T</span>, <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
 
-<span class='doccomment'>///Routers are used to store request handlers.</span>
+<span class='doccomment'>///A common trait for routers.</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///A router implementing the `Router` trait will always be compatible with</span>
-<span class='doccomment'>///the `insert_routes!` macro.</span>
+<span class='doccomment'>///A router must to implement this trait to be usable in a Rustful server. This</span>
+<span class='doccomment'>///trait will also make the router compatible with the `insert_routes!` macro.</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Router</span> {
     <span class='kw'>type</span> <span class='ident'>Handler</span>;
-    <span class='doccomment'>///Find and return the matching handler and variable values.</span>
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span><span class='ident'>Self</span>::<span class='ident'>Handler</span>, <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
 
     <span class='doccomment'>///Insert a new handler into the router.</span>
-    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='ident'>Method</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>handler</span>: <span class='ident'>Self</span>::<span class='ident'>Handler</span>);
+    <span class='kw'>fn</span> <span class='ident'>insert</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='ident'>Method</span>, <span class='ident'>route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>handler</span>: <span class='ident'>Self</span>::<span class='ident'>Handler</span>);
+
+    <span class='doccomment'>///Find and return the matching handler and variable values.</span>
+    <span class='kw'>fn</span> <span class='ident'>find</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>RouterResult</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>Self</span>::<span class='ident'>Handler</span><span class='op'>&gt;</span>;
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>H</span>: <span class='ident'>Handler</span><span class='op'>&gt;</span> <span class='ident'>Router</span> <span class='kw'>for</span> <span class='ident'>H</span> {
     <span class='kw'>type</span> <span class='ident'>Handler</span> <span class='op'>=</span> <span class='ident'>H</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='kw-2'>&amp;</span><span class='ident'>H</span>, <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>find</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>_method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>_route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>RouterResult</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>H</span><span class='op'>&gt;</span> {
         <span class='prelude-val'>Some</span>((<span class='self'>self</span>, <span class='ident'>HashMap</span>::<span class='ident'>new</span>()))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_method</span>: <span class='ident'>Method</span>, <span class='ident'>_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>_handler</span>: <span class='ident'>H</span>) {}
+    <span class='kw'>fn</span> <span class='ident'>insert</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;r</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_method</span>: <span class='ident'>Method</span>, <span class='ident'>_route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>_handler</span>: <span class='ident'>H</span>) {}
+}
+
+<span class='doccomment'>///A segmented route.</span>
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>type</span> <span class='ident'>Segments</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;</span>;
+
+    <span class='doccomment'>///Create a route segment iterator. The iterator is expected to return</span>
+    <span class='doccomment'>///None for a root path (`/`).</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>///```rust</span>
+    <span class='doccomment'>///# use rustful::router::Route;</span>
+    <span class='doccomment'>///let root = &quot;/&quot;;</span>
+    <span class='doccomment'>///assert_eq!(root.segments().next(), None);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>///let path = [&quot;/path&quot;, &quot;to/somewhere/&quot;, &quot;/&quot;, &quot;/else/&quot;];</span>
+    <span class='doccomment'>///let segments = path.segments().collect();</span>
+    <span class='doccomment'>///assert_eq!(segments, vec![&quot;path&quot;, &quot;to&quot;, &quot;somewhere&quot;, &quot;else&quot;]);</span>
+    <span class='doccomment'>///```</span>
+    <span class='kw'>fn</span> <span class='ident'>segments</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span>;
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>str</span> {
+    <span class='kw'>type</span> <span class='ident'>Segments</span> <span class='op'>=</span> <span class='ident'>RouteIter</span><span class='op'>&lt;</span><span class='ident'>SplitTerminator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>char</span><span class='op'>&gt;&gt;</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>segments</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span> {
+        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>starts_with</span>(<span class='string'>&#39;/&#39;</span>) {
+            <span class='kw-2'>&amp;</span><span class='self'>self</span>[<span class='number'>1</span>..]
+        } <span class='kw'>else</span> {
+            <span class='self'>self</span>
+        };
+
+        <span class='kw'>if</span> <span class='ident'>s</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
+            <span class='ident'>RouteIter</span>::<span class='ident'>Root</span>
+        } <span class='kw'>else</span> {
+            <span class='ident'>RouteIter</span>::<span class='ident'>Path</span>(<span class='ident'>s</span>.<span class='ident'>split_terminator</span>(<span class='string'>&#39;/&#39;</span>))
+        }
+    }
+}
+
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='kw'>for</span> [<span class='ident'>R</span>] {
+    <span class='kw'>type</span> <span class='ident'>Segments</span> <span class='op'>=</span> <span class='ident'>FlatMap</span><span class='op'>&lt;</span><span class='ident'>Iter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span><span class='op'>&gt;</span>, <span class='op'>&lt;</span><span class='ident'>R</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span>, <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='ident'>R</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span><span class='op'>&gt;</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>segments</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&gt;</span>::<span class='ident'>Segments</span> {
+        <span class='kw'>fn</span> <span class='ident'>segments</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='ident'>T</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span> {
+            <span class='ident'>s</span>.<span class='ident'>segments</span>()
+        }
+
+        <span class='self'>self</span>.<span class='ident'>iter</span>().<span class='ident'>flat_map</span>(<span class='ident'>segments</span>::<span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>)
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>: <span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>Deref</span><span class='op'>&lt;</span><span class='ident'>Target</span><span class='op'>=</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;b</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span> <span class='op'>+</span> <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>T</span> {
+    <span class='kw'>type</span> <span class='ident'>Segments</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>R</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span>;
+
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>segments</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span>::<span class='ident'>Segments</span> {
+        <span class='self'>self</span>.<span class='ident'>deref</span>().<span class='ident'>segments</span>()
+    }
+}
+
+<span class='doccomment'>///Utility iterator for when a root path may be hard to represent.</span>
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>RouteIter</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>///A root path (`/`).</span>
+    <span class='ident'>Root</span>,
+    <span class='doccomment'>///A non-root path (`path/to/somewhere`).</span>
+    <span class='ident'>Path</span>(<span class='ident'>I</span>)
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>RouteIter</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span> {
+    <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>I</span> <span class='kw'>as</span> <span class='ident'>Iterator</span><span class='op'>&gt;</span>::<span class='ident'>Item</span>;
+
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> <span class='ident'>Iterator</span><span class='op'>&gt;</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+        <span class='kw'>match</span> <span class='self'>self</span> {
+            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>RouteIter</span>::<span class='ident'>Path</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span>.<span class='ident'>next</span>(),
+            <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>RouteIter</span>::<span class='ident'>Root</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>size_hint</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) {
+        <span class='kw'>match</span> <span class='self'>self</span> {
+            <span class='kw-2'>&amp;</span><span class='ident'>RouteIter</span>::<span class='ident'>Path</span>(<span class='kw-2'>ref</span> <span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span>.<span class='ident'>size_hint</span>(),
+            <span class='kw-2'>&amp;</span><span class='ident'>RouteIter</span>::<span class='ident'>Root</span> <span class='op'>=&gt;</span> (<span class='number'>0</span>, <span class='prelude-val'>Some</span>(<span class='number'>0</span>))
+        }
+    }
 }
 
 <span class='kw'>enum</span> <span class='ident'>Branch</span> {
@@ -925,13 +1068,10 @@
 <span class='doccomment'>///Stores items, such as request handlers, using an HTTP method and a path as keys.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///Paths can be static (`&quot;path/to/item&quot;`) or variable (`&quot;users/:group/:user&quot;`)</span>
-<span class='doccomment'>///and contain wildcards (`&quot;path/*/item/*&quot;`).</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///Variables (starting with `:`) will match whatever word the request path contains at</span>
-<span class='doccomment'>///that point and it will be sent as a value to the item.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>///Wildcards (a single `*`) will consume the segments until the rest of the</span>
-<span class='doccomment'>///path gives a match.</span>
+<span class='doccomment'>///and contain wildcards (`&quot;path/*/item/*&quot;`). Variables (starting with `:`)</span>
+<span class='doccomment'>///will match whatever word the request path contains at that point and it</span>
+<span class='doccomment'>///will be sent as a value to the item. Wildcards (a single `*`) will consume</span>
+<span class='doccomment'>///the segments until the rest of the path gives a match.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>///```ignore</span>
 <span class='doccomment'>///pattern = &quot;a/*/b&quot;</span>
@@ -967,17 +1107,6 @@
         }
     }
 
-    <span class='doccomment'>///Generates a `TreeRouter` tree from a set of items and paths.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_routes</span>(<span class='ident'>routes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Method</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>T</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
-
-        <span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>path</span>, <span class='ident'>item</span>) <span class='kw'>in</span> <span class='ident'>routes</span> {
-            <span class='ident'>root</span>.<span class='ident'>insert</span>(<span class='ident'>method</span>, <span class='ident'>path</span>, <span class='ident'>item</span>);
-        }
-
-        <span class='ident'>root</span>
-    }
-
     <span class='comment'>//Tries to find a router matching the key or inserts a new one if none exists.</span>
     <span class='kw'>fn</span> <span class='ident'>find_or_insert_router</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='ident'>key</span> <span class='op'>==</span> <span class='string'>&quot;*&quot;</span> {
@@ -1002,8 +1131,8 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Router</span> <span class='kw'>for</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Handler</span> <span class='op'>=</span> <span class='ident'>T</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>find</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>RouterResult</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>path_to_vec</span>(<span class='ident'>path</span>);
+    <span class='kw'>fn</span> <span class='ident'>find</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='kw-2'>&amp;</span><span class='ident'>Method</span>, <span class='ident'>route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>RouterResult</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>route</span>.<span class='ident'>segments</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
         <span class='kw'>let</span> <span class='ident'>method_str</span> <span class='op'>=</span> <span class='ident'>method</span>.<span class='ident'>to_string</span>();
 
         <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
@@ -1031,7 +1160,7 @@
                             });
 
                             <span class='kw'>let</span> <span class='ident'>var_map</span> <span class='op'>=</span> <span class='ident'>variable_names</span>.<span class='ident'>iter</span>().<span class='ident'>zip</span>(<span class='ident'>values</span>).<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>key</span>, <span class='ident'>value</span>)<span class='op'>|</span> {
-                                (<span class='ident'>key</span>.<span class='ident'>clone</span>(), <span class='ident'>value</span>)
+                                (<span class='ident'>key</span>.<span class='ident'>clone</span>(), <span class='ident'>value</span>.<span class='ident'>to_owned</span>())
                             });
 
                             <span class='kw'>return</span> <span class='prelude-val'>Some</span>((<span class='ident'>item</span>, <span class='ident'>var_map</span>.<span class='ident'>collect</span>()))
@@ -1042,7 +1171,7 @@
 
                 <span class='kw'>match</span> <span class='ident'>branch</span> {
                     <span class='ident'>Static</span> <span class='op'>=&gt;</span> {
-                        <span class='ident'>current</span>.<span class='ident'>static_routes</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>[<span class='ident'>index</span>]).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>next</span><span class='op'>|</span> {
+                        <span class='ident'>current</span>.<span class='ident'>static_routes</span>.<span class='ident'>get</span>(<span class='ident'>path</span>[<span class='ident'>index</span>]).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>next</span><span class='op'>|</span> {
                             <span class='ident'>variables</span>.<span class='ident'>get_mut</span>(<span class='ident'>index</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>v</span> <span class='op'>=</span> <span class='boolval'>false</span>);
                             
                             <span class='ident'>stack</span>.<span class='ident'>push</span>((<span class='ident'>next</span>, <span class='ident'>Wildcard</span>, <span class='ident'>index</span><span class='op'>+</span><span class='number'>1</span>));
@@ -1076,57 +1205,42 @@
         }
     }
 
-    <span class='doccomment'>///Inserts an item into the `TreeRouter` at a given path.</span>
-    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='ident'>Method</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>item</span>: <span class='ident'>T</span>) {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>path_to_vec</span>(<span class='ident'>path</span>.<span class='ident'>trim</span>());
+    <span class='kw'>fn</span> <span class='ident'>insert</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>method</span>: <span class='ident'>Method</span>, <span class='ident'>route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>item</span>: <span class='ident'>T</span>) {
+        <span class='kw'>let</span> (<span class='ident'>endpoint</span>, <span class='ident'>variable_names</span>) <span class='op'>=</span> <span class='ident'>route</span>.<span class='ident'>segments</span>().<span class='ident'>fold</span>((<span class='self'>self</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>()),
 
-        <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='self'>self</span>.<span class='ident'>items</span>.<span class='ident'>insert</span>(<span class='ident'>method</span>.<span class='ident'>to_string</span>().<span class='ident'>to_owned</span>(), (<span class='ident'>item</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>()));
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> (<span class='ident'>endpoint</span>, <span class='ident'>variable_names</span>) <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>into_iter</span>().<span class='ident'>fold</span>((<span class='self'>self</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>()),
-
-                <span class='op'>|</span>(<span class='ident'>current</span>, <span class='kw-2'>mut</span> <span class='ident'>variable_names</span>), <span class='ident'>piece</span><span class='op'>|</span> {
-                    <span class='kw'>let</span> <span class='ident'>next</span> <span class='op'>=</span> <span class='ident'>current</span>.<span class='ident'>find_or_insert_router</span>(<span class='kw-2'>&amp;</span><span class='ident'>piece</span>);
-                    <span class='kw'>if</span> <span class='ident'>piece</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>piece</span>.<span class='ident'>char_at</span>(<span class='number'>0</span>) <span class='op'>==</span> <span class='string'>&#39;:&#39;</span> {
-                        <span class='comment'>//piece.shift_char();</span>
-                        <span class='ident'>variable_names</span>.<span class='ident'>push</span>(<span class='ident'>piece</span>[<span class='number'>1</span>..].<span class='ident'>to_owned</span>());
-                    }
-
-                    (<span class='ident'>next</span>, <span class='ident'>variable_names</span>)
+            <span class='op'>|</span>(<span class='ident'>current</span>, <span class='kw-2'>mut</span> <span class='ident'>variable_names</span>), <span class='ident'>piece</span><span class='op'>|</span> {
+                <span class='kw'>let</span> <span class='ident'>next</span> <span class='op'>=</span> <span class='ident'>current</span>.<span class='ident'>find_or_insert_router</span>(<span class='kw-2'>&amp;</span><span class='ident'>piece</span>);
+                <span class='kw'>if</span> <span class='ident'>piece</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>piece</span>.<span class='ident'>char_at</span>(<span class='number'>0</span>) <span class='op'>==</span> <span class='string'>&#39;:&#39;</span> {
+                    <span class='ident'>variable_names</span>.<span class='ident'>push</span>(<span class='ident'>piece</span>[<span class='number'>1</span>..].<span class='ident'>to_owned</span>());
                 }
 
-            );
+                (<span class='ident'>next</span>, <span class='ident'>variable_names</span>)
+            }
 
-            <span class='ident'>endpoint</span>.<span class='ident'>items</span>.<span class='ident'>insert</span>(<span class='ident'>method</span>.<span class='ident'>to_string</span>().<span class='ident'>to_owned</span>(), (<span class='ident'>item</span>, <span class='ident'>variable_names</span>));
-        }
+        );
+
+        <span class='ident'>endpoint</span>.<span class='ident'>items</span>.<span class='ident'>insert</span>(<span class='ident'>method</span>.<span class='ident'>to_string</span>().<span class='ident'>to_owned</span>(), (<span class='ident'>item</span>, <span class='ident'>variable_names</span>));
     }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Insert an other TreeRouter at a path. The content of the other TreeRouter will be merged with this one.</span>
     <span class='doccomment'>///Content with the same path and method will be overwritten.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>insert_router</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>router</span>: <span class='kw-2'>&amp;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>path_to_vec</span>(<span class='ident'>path</span>.<span class='ident'>trim</span>());
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>insert_router</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>route</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>router</span>: <span class='kw-2'>&amp;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) {
+        <span class='kw'>let</span> (<span class='ident'>endpoint</span>, <span class='ident'>variable_names</span>) <span class='op'>=</span> <span class='ident'>route</span>.<span class='ident'>segments</span>().<span class='ident'>fold</span>((<span class='self'>self</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>()),
 
-        <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='self'>self</span>.<span class='ident'>merge_router</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>(), <span class='ident'>router</span>);
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> (<span class='ident'>endpoint</span>, <span class='ident'>variable_names</span>) <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>into_iter</span>().<span class='ident'>fold</span>((<span class='self'>self</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>()),
-
-                <span class='op'>|</span>(<span class='ident'>current</span>, <span class='kw-2'>mut</span> <span class='ident'>variable_names</span>), <span class='ident'>piece</span><span class='op'>|</span> {
-                    <span class='kw'>let</span> <span class='ident'>next</span> <span class='op'>=</span> <span class='ident'>current</span>.<span class='ident'>find_or_insert_router</span>(<span class='kw-2'>&amp;</span><span class='ident'>piece</span>);
-                    <span class='kw'>if</span> <span class='ident'>piece</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>piece</span>.<span class='ident'>char_at</span>(<span class='number'>0</span>) <span class='op'>==</span> <span class='string'>&#39;:&#39;</span> {
-                        <span class='comment'>//piece.shift_char();</span>
-                        <span class='ident'>variable_names</span>.<span class='ident'>push</span>(<span class='ident'>piece</span>[<span class='number'>1</span>..].<span class='ident'>to_owned</span>());
-                    }
-
-                    (<span class='ident'>next</span>, <span class='ident'>variable_names</span>)
+            <span class='op'>|</span>(<span class='ident'>current</span>, <span class='kw-2'>mut</span> <span class='ident'>variable_names</span>), <span class='ident'>piece</span><span class='op'>|</span> {
+                <span class='kw'>let</span> <span class='ident'>next</span> <span class='op'>=</span> <span class='ident'>current</span>.<span class='ident'>find_or_insert_router</span>(<span class='kw-2'>&amp;</span><span class='ident'>piece</span>);
+                <span class='kw'>if</span> <span class='ident'>piece</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>piece</span>.<span class='ident'>char_at</span>(<span class='number'>0</span>) <span class='op'>==</span> <span class='string'>&#39;:&#39;</span> {
+                    <span class='ident'>variable_names</span>.<span class='ident'>push</span>(<span class='ident'>piece</span>[<span class='number'>1</span>..].<span class='ident'>to_owned</span>());
                 }
 
-            );
+                (<span class='ident'>next</span>, <span class='ident'>variable_names</span>)
+            }
 
-            <span class='ident'>endpoint</span>.<span class='ident'>merge_router</span>(<span class='ident'>variable_names</span>, <span class='ident'>router</span>);
-        }
+        );
+
+        <span class='ident'>endpoint</span>.<span class='ident'>merge_router</span>(<span class='ident'>variable_names</span>, <span class='ident'>router</span>);
     }
 
     <span class='comment'>//Mergers this TreeRouter with an other TreeRouter.</span>
@@ -1169,20 +1283,50 @@
     }
 }
 
-<span class='comment'>//Converts a path to a suitable array of path segments</span>
-<span class='kw'>fn</span> <span class='ident'>path_to_vec</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
-    <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
-        <span class='macro'>vec</span><span class='macro'>!</span>()
-    } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>1</span> {
-        <span class='kw'>if</span> <span class='ident'>path</span> <span class='op'>==</span> <span class='string'>&quot;/&quot;</span> {
-            <span class='macro'>vec</span><span class='macro'>!</span>()
-        } <span class='kw'>else</span> {
-            <span class='macro'>vec</span><span class='macro'>!</span>(<span class='ident'>path</span>.<span class='ident'>to_string</span>())
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='ident'>T</span>, <span class='ident'>R</span>: <span class='ident'>Route</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;r</span> <span class='op'>+</span> ?<span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>FromIterator</span><span class='op'>&lt;</span>(<span class='ident'>Method</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>T</span>)<span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>///Create a `TreeRouter` from a collection of routes.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>///```</span>
+    <span class='doccomment'>///extern crate rustful;</span>
+    <span class='doccomment'>///use rustful::Method::Get;</span>
+    <span class='doccomment'>///use rustful::TreeRouter;</span>
+    <span class='doccomment'>///# use rustful::{Handler, Context, Response};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>///# #[derive(Copy)]</span>
+    <span class='doccomment'>///# struct DummyHandler;</span>
+    <span class='doccomment'>///# impl Handler for DummyHandler {</span>
+    <span class='doccomment'>///#     type Cache = ();</span>
+    <span class='doccomment'>///#     fn handle_request(&amp;self, _: Context, _: Response){}</span>
+    <span class='doccomment'>///# }</span>
+    <span class='doccomment'>///# fn main() {</span>
+    <span class='doccomment'>///# let about_us = DummyHandler;</span>
+    <span class='doccomment'>///# let show_user = DummyHandler;</span>
+    <span class='doccomment'>///# let list_users = DummyHandler;</span>
+    <span class='doccomment'>///# let show_product = DummyHandler;</span>
+    <span class='doccomment'>///# let list_products = DummyHandler;</span>
+    <span class='doccomment'>///# let show_error = DummyHandler;</span>
+    <span class='doccomment'>///# let show_welcome = DummyHandler;</span>
+    <span class='doccomment'>///let routes = vec![</span>
+    <span class='doccomment'>///    (Get, &quot;/about&quot;, about_us),</span>
+    <span class='doccomment'>///    (Get, &quot;/users&quot;, list_users),</span>
+    <span class='doccomment'>///    (Get, &quot;/users/:id&quot;, show_user),</span>
+    <span class='doccomment'>///    (Get, &quot;/products&quot;, list_products),</span>
+    <span class='doccomment'>///    (Get, &quot;/products/:id&quot;, show_product),</span>
+    <span class='doccomment'>///    (Get, &quot;/*&quot;, show_error),</span>
+    <span class='doccomment'>///    (Get, &quot;/&quot;, show_welcome)</span>
+    <span class='doccomment'>///];</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>///let router: TreeRouter&lt;_&gt; = routes.into_iter().collect();</span>
+    <span class='doccomment'>///# }</span>
+    <span class='doccomment'>///```</span>
+    <span class='kw'>fn</span> <span class='ident'>from_iter</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span>(<span class='ident'>Method</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>R</span>, <span class='ident'>T</span>)<span class='op'>&gt;&gt;</span>(<span class='ident'>iterator</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>TreeRouter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>root</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
+
+        <span class='kw'>for</span> (<span class='ident'>method</span>, <span class='ident'>route</span>, <span class='ident'>item</span>) <span class='kw'>in</span> <span class='ident'>iterator</span> {
+            <span class='ident'>root</span>.<span class='ident'>insert</span>(<span class='ident'>method</span>, <span class='ident'>route</span>, <span class='ident'>item</span>);
         }
-    } <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>char_at</span>(<span class='number'>0</span>) <span class='op'>==</span> <span class='string'>&#39;/&#39;</span> { <span class='number'>1</span> } <span class='kw'>else</span> { <span class='number'>0</span> };
-        <span class='kw'>let</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>path</span>.<span class='ident'>char_at</span>(<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>) <span class='op'>==</span> <span class='string'>&#39;/&#39;</span> { <span class='number'>1</span> } <span class='kw'>else</span> { <span class='number'>0</span> };
-        <span class='ident'>path</span>[<span class='ident'>start</span>..<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>end</span>].<span class='ident'>split</span>(<span class='string'>&#39;/&#39;</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_string</span>()).<span class='ident'>collect</span>()
+
+        <span class='ident'>root</span>
     }
 }
 
@@ -1230,7 +1374,7 @@
     <span class='kw'>fn</span> <span class='ident'>one_static_route</span>() {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to&quot;</span>), <span class='prelude-val'>None</span>);
@@ -1245,7 +1389,7 @@
             (<span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1/no/test3&quot;</span>, <span class='string'>&quot;test 3&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test/no2&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 2&quot;</span>));
@@ -1257,7 +1401,7 @@
     <span class='kw'>fn</span> <span class='ident'>one_variable_route</span>() {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;path/:a/test1&quot;</span>, <span class='string'>&quot;test_var&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check_variable</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;to&quot;</span>));
         <span class='ident'>check_variable</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to&quot;</span>), <span class='prelude-val'>None</span>);
@@ -1273,7 +1417,7 @@
             (<span class='ident'>Post</span>, <span class='string'>&quot;path/to/:c/:a/:b&quot;</span>, <span class='string'>&quot;test_var&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check_variable</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;&quot;</span>));
         <span class='ident'>check_variable</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test/no2&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;to&quot;</span>));
@@ -1286,7 +1430,7 @@
     <span class='kw'>fn</span> <span class='ident'>one_wildcard_end_route</span>() {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;path/to/*&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/same/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
@@ -1300,7 +1444,7 @@
     <span class='kw'>fn</span> <span class='ident'>one_wildcard_middle_route</span>() {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;path/*/test1&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/same/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
@@ -1313,7 +1457,7 @@
     <span class='kw'>fn</span> <span class='ident'>one_universal_wildcard_route</span>() {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;*&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/same/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
@@ -1331,7 +1475,7 @@
             (<span class='ident'>Get</span>, <span class='string'>&quot;path/to/*/*/*&quot;</span>, <span class='string'>&quot;test 3&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/for/test/no2&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 2&quot;</span>));
@@ -1349,7 +1493,7 @@
             (<span class='ident'>Get</span>, <span class='string'>&quot;/path/to/test3/again/&quot;</span>, <span class='string'>&quot;test 3&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 1&quot;</span>));
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;path/to/test/no2/&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;test 2&quot;</span>));
@@ -1367,7 +1511,7 @@
             (<span class='ident'>Put</span>, <span class='string'>&quot;/&quot;</span>, <span class='string'>&quot;put&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
 
         <span class='ident'>check</span>(<span class='ident'>router</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>), <span class='prelude-val'>Some</span>(<span class='string'>&quot;get&quot;</span>));
@@ -1391,8 +1535,8 @@
             (<span class='ident'>Post</span>, <span class='string'>&quot;test1/no/test3&quot;</span>, <span class='string'>&quot;test 3 post&quot;</span>)
         ];
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes1</span>);
-        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes2</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>routes1</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>routes2</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>router1</span>.<span class='ident'>insert_router</span>(<span class='string'>&quot;path/to&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>router2</span>);
 
@@ -1410,8 +1554,8 @@
         <span class='kw'>let</span> <span class='ident'>routes1</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;:a/:b/:c&quot;</span>, <span class='string'>&quot;test 2&quot;</span>)];
         <span class='kw'>let</span> <span class='ident'>routes2</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;:b/:c/test&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes1</span>);
-        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes2</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>routes1</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>routes2</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>router1</span>.<span class='ident'>insert_router</span>(<span class='string'>&quot;:a&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>router2</span>);
         
@@ -1425,8 +1569,8 @@
         <span class='kw'>let</span> <span class='ident'>routes1</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;path/to&quot;</span>, <span class='string'>&quot;test 2&quot;</span>)];
         <span class='kw'>let</span> <span class='ident'>routes2</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[(<span class='ident'>Get</span>, <span class='string'>&quot;*/test1&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes1</span>);
-        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes2</span>);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router1</span> <span class='op'>=</span> <span class='ident'>routes1</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
+        <span class='kw'>let</span> <span class='ident'>router2</span> <span class='op'>=</span> <span class='ident'>routes2</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
 
         <span class='ident'>router1</span>.<span class='ident'>insert_router</span>(<span class='string'>&quot;path&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>router2</span>);
 
@@ -1469,7 +1613,7 @@
             <span class='string'>&quot;path/to/test1/nothing/at/all&quot;</span>
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>counter</span> <span class='op'>=</span> <span class='number'>0</span>;
 
         <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
@@ -1500,7 +1644,7 @@
             <span class='string'>&quot;path/to/test1/nothing/at/all/and/all/and/all/and/a&quot;</span>
         ];
 
-        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
+        <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>routes</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>TreeRouter</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>counter</span> <span class='op'>=</span> <span class='number'>0</span>;
 
         <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {

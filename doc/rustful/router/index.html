@@ -43,44 +43,13 @@
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>router</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1348' href='../../src/rustful/router.rs.html#1-734'>[src]</a></span></h1>
+        </span><a id='src-1348' href='../../src/rustful/router.rs.html#1-806'>[src]</a></span></h1>
 <div class='docblock'><p>Routers stores request handlers, using an HTTP method and a path as keys.</p>
 
-<p>The <code>TreeRouter</code>, for example, can be created from a vector of predefined paths, like this:</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
-<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
-<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>TreeRouter</span>;
-
-<span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>),
-    (<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>)
-];
-
-<span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>from_routes</span>(<span class='ident'>routes</span>);
-</pre>
-
-<p>Routes may also be added after the router was created, like this:</p>
-<pre id='rust-example-rendered' class='rust '>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
-<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
-<span class='kw'>use</span> <span class='ident'>rustful</span>::{<span class='ident'>Router</span>, <span class='ident'>TreeRouter</span>};
-
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
-
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/user/:user&quot;</span>, <span class='ident'>show_user</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/product/:name&quot;</span>, <span class='ident'>show_product</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>);
-<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>);
-</pre>
-
-<p>Routers can also be used with a special macro for creating routes, called <code>insert_routes!</code>:</p>
+<p>Rustful provides a tree structured all-round router called <code>TreeRouter</code>,
+but any other type of router can be used, as long as it implements the
+<code>Router</code> trait. This will also make it possible to initialize it using the
+<code>insert_routes!</code> macro:</p>
 <pre id='rust-example-rendered' class='rust '>
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
@@ -90,18 +59,41 @@
 <span class='kw'>let</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='macro'>insert_routes</span><span class='macro'>!</span>{
     <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>() <span class='op'>=&gt;</span> {
         <span class='string'>&quot;/about&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>about_us</span>,
-        <span class='string'>&quot;/user/:user&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span>,
-        <span class='string'>&quot;/product/:name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span>,
+        <span class='string'>&quot;/users&quot;</span> <span class='op'>=&gt;</span> {
+            <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>list_users</span>,
+            <span class='string'>&quot;:id&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_user</span>
+        },
+        <span class='string'>&quot;/products&quot;</span> <span class='op'>=&gt;</span> {
+            <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>list_products</span>,
+            <span class='string'>&quot;:id&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_product</span>
+        },
         <span class='string'>&quot;/*&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_error</span>,
         <span class='string'>&quot;/&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>Get</span>: <span class='ident'>show_welcome</span>
     }
 };
 </pre>
 
-<p>This macro will generate the same code as the example above,
-but it allows more advanced structures to be defined without
-the need to write the same paths multiple times. This can be
-useful to lower the risk of typing errors, among other things.</p>
+<p>This macro creates the same structure as the example below, but it allows
+tree structures to be defined without the need to write the same paths
+multiple times. This can be useful to lower the risk of typing errors,
+among other things.</p>
+
+<p>Routes may also be added using the insert method, like this:</p>
+<pre id='rust-example-rendered' class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustful</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::<span class='ident'>Method</span>::<span class='ident'>Get</span>;
+<span class='kw'>use</span> <span class='ident'>rustful</span>::{<span class='ident'>Router</span>, <span class='ident'>TreeRouter</span>};
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>router</span> <span class='op'>=</span> <span class='ident'>TreeRouter</span>::<span class='ident'>new</span>();
+
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/about&quot;</span>, <span class='ident'>about_us</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/users&quot;</span>, <span class='ident'>list_users</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/users/:id&quot;</span>, <span class='ident'>show_user</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/products&quot;</span>, <span class='ident'>list_products</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/products/:id&quot;</span>, <span class='ident'>show_product</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/*&quot;</span>, <span class='ident'>show_error</span>);
+<span class='ident'>router</span>.<span class='ident'>insert</span>(<span class='ident'>Get</span>, <span class='string'>&quot;/&quot;</span>, <span class='ident'>show_welcome</span>);
+</pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
@@ -110,12 +102,27 @@ useful to lower the risk of typing errors, among other things.</p>
                         <td class='docblock short'><p>Stores items, such as request handlers, using an HTTP method and a path as keys.</p>
 </td>
                     </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.RouteIter.html'
+                               title='rustful::router::RouteIter'>RouteIter</a></td>
+                        <td class='docblock short'><p>Utility iterator for when a root path may be hard to represent.</p>
+</td>
+                    </tr>
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
                     <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.Route.html'
+                               title='rustful::router::Route'>Route</a></td>
+                        <td class='docblock short'><p>A segmented route.</p>
+</td>
+                    </tr>
+                
+                    <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='trait' href='trait.Router.html'
                                title='rustful::router::Router'>Router</a></td>
-                        <td class='docblock short'><p>Routers are used to store request handlers.</p>
+                        <td class='docblock short'><p>A common trait for routers.</p>
 </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>

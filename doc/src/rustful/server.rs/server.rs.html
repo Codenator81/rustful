@@ -516,7 +516,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>RwLock</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::{<span class='ident'>IpAddr</span>, <span class='ident'>Ipv4Addr</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>use</span> <span class='ident'>time</span>::{<span class='self'>self</span>, <span class='ident'>Timespec</span>};
 
@@ -668,7 +668,7 @@
     }
 
     <span class='doccomment'>///Change the protocol to HTTPS.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>https</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>cert</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>path</span>::<span class='ident'>Path</span>, <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>path</span>::<span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>https</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>cert</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>Path</span>, <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;s</span> <span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span>, <span class='ident'>C</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>protocol</span> <span class='op'>=</span> <span class='ident'>Scheme</span>::<span class='ident'>Https</span> {
             <span class='ident'>cert</span>: <span class='ident'>cert</span>,
             <span class='ident'>key</span>: <span class='ident'>key</span>
