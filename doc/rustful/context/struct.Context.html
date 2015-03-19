@@ -43,9 +43,11 @@
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>context</a>::<wbr><a class='struct' href=''>Context</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-3890' href='../../src/rustful/context.rs.html#21-48'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Context&lt;'r, 'c, Cache: 'c = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; {
+        </span><a id='src-3881' href='../../src/rustful/context.rs.html#24-57'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Context&lt;'a, 'b, 'c, Cache: 'c = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; {
     pub headers: <a class='struct' href='../../rustful/header/struct.Headers.html' title='rustful::header::Headers'>Headers</a>,
+    pub http_version: <a class='enum' href='../../rustful/enum.HttpVersion.html' title='rustful::HttpVersion'>HttpVersion</a>,
+    pub address: <a class='struct' href='http://doc.rust-lang.org/nightly/std/net/addr/struct.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>,
     pub method: <a class='enum' href='../../rustful/enum.Method.html' title='rustful::Method'>Method</a>,
     pub path: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub variables: <a class='struct' href='http://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
@@ -53,13 +55,15 @@
     pub fragment: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
     pub cache: &amp;'c Cache,
     pub log: &amp;'c <a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a> + 'c,
-    pub body_reader: <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;,
+    pub body_reader: <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'a, 'b&gt;,
 }</pre><div class='docblock'><p>A container for things like request data and cache.</p>
 
 <p>A <code>Context</code> can be dereferenced to a <code>BodyReader</code>, allowing direct access to
 the underlying read methods.</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr><td id='structfield.headers'><a class='stability Unmarked' title='No stability level'></a><code>headers</code></td><td><div class='docblock'><p>Headers from the HTTP request.</p>
+</div></td></tr><tr><td id='structfield.http_version'><a class='stability Unmarked' title='No stability level'></a><code>http_version</code></td><td><div class='docblock'><p>The HTTP version used in the request.</p>
+</div></td></tr><tr><td id='structfield.address'><a class='stability Unmarked' title='No stability level'></a><code>address</code></td><td><div class='docblock'><p>The client address</p>
 </div></td></tr><tr><td id='structfield.method'><a class='stability Unmarked' title='No stability level'></a><code>method</code></td><td><div class='docblock'><p>The HTTP method.</p>
 </div></td></tr><tr><td id='structfield.path'><a class='stability Unmarked' title='No stability level'></a><code>path</code></td><td><div class='docblock'><p>The requested path.</p>
 </div></td></tr><tr><td id='structfield.variables'><a class='stability Unmarked' title='No stability level'></a><code>variables</code></td><td><div class='docblock'><p>Route variables.</p>
@@ -68,9 +72,9 @@ the underlying read methods.</p>
 </div></td></tr><tr><td id='structfield.cache'><a class='stability Unmarked' title='No stability level'></a><code>cache</code></td><td><div class='docblock'><p>Resource cache.</p>
 </div></td></tr><tr><td id='structfield.log'><a class='stability Unmarked' title='No stability level'></a><code>log</code></td><td><div class='docblock'><p>Log for notes, errors and warnings.</p>
 </div></td></tr><tr><td id='structfield.body_reader'><a class='stability Unmarked' title='No stability level'></a><code>body_reader</code></td><td><div class='docblock'><p>A reader for the request body.</p>
-</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'r, 'c, C&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;'r, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Target' class='type'><a class='stability Unmarked' title='No stability level'></a><code>type Target = <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h4>
-<h4 id='method.deref' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.deref' class='fnname'>deref</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h4>
-</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'r, 'c, C&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.DerefMut.html' title='core::ops::DerefMut'>DerefMut</a> for <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;'r, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='method.deref_mut' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.deref_mut' class='fnname'>deref_mut</a>&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a mut <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'r&gt;</code></h4>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'a, 'b, 'c, C&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;'a, 'b, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Target' class='type'><a class='stability Unmarked' title='No stability level'></a><code>type Target = <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'a, 'b&gt;</code></h4>
+<h4 id='method.deref' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.deref' class='fnname'>deref</a>&lt;'r&gt;(&amp;'r self) -&gt; &amp;'r <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'a, 'b&gt;</code></h4>
+</div><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;'a, 'b, 'c, C&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.DerefMut.html' title='core::ops::DerefMut'>DerefMut</a> for <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;'a, 'b, 'c, C&gt;</code></h3><div class='impl-items'><h4 id='method.deref_mut' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.deref_mut' class='fnname'>deref_mut</a>&lt;'r&gt;(&amp;'r mut self) -&gt; &amp;'r mut <a class='struct' href='../../rustful/context/struct.BodyReader.html' title='rustful::context::BodyReader'>BodyReader</a>&lt;'a, 'b&gt;</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
