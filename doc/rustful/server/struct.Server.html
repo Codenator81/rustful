@@ -43,11 +43,10 @@
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>server</a>::<wbr><a class='struct' href=''>Server</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-218' href='../../src/rustful/server.rs.html#57-96'>[src]</a></span></h1>
+        </span><a id='src-220' href='../../src/rustful/server.rs.html#57-93'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Server&lt;'s, R, C&gt; {
     pub handlers: R,
-    pub port: <a href='http://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>,
-    pub host: <a class='enum' href='http://doc.rust-lang.org/nightly/std/net/ip/enum.IpAddr.html' title='std::net::ip::IpAddr'>IpAddr</a>,
+    pub host: <a class='enum' href='http://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>,
     pub protocol: <a class='enum' href='../../rustful/enum.Scheme.html' title='rustful::Scheme'>Scheme</a>&lt;'s&gt;,
     pub threads: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;,
     pub server: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
@@ -71,8 +70,7 @@ calls to these methods can be chained for quick setup.</p>
 </pre>
 </div><h2 class='fields'>Fields</h2>
 <table><tr><td id='structfield.handlers'><a class='stability Unmarked' title='No stability level'></a><code>handlers</code></td><td><div class='docblock'><p>One or several response handlers.</p>
-</div></td></tr><tr><td id='structfield.port'><a class='stability Unmarked' title='No stability level'></a><code>port</code></td><td><div class='docblock'><p>The port where the server will listen for requests.</p>
-</div></td></tr><tr><td id='structfield.host'><a class='stability Unmarked' title='No stability level'></a><code>host</code></td><td><div class='docblock'><p>The host address where the server will listen for requests.</p>
+</div></td></tr><tr><td id='structfield.host'><a class='stability Unmarked' title='No stability level'></a><code>host</code></td><td><div class='docblock'><p>The host address and port where the server will listen for requests.</p>
 </div></td></tr><tr><td id='structfield.protocol'><a class='stability Unmarked' title='No stability level'></a><code>protocol</code></td><td><div class='docblock'><p>The type of HTTP protocol.</p>
 </div></td></tr><tr><td id='structfield.threads'><a class='stability Unmarked' title='No stability level'></a><code>threads</code></td><td><div class='docblock'><p>The number of threads to be used in the server task pool.
 The default (<code>None</code>) is based on recommendations from the system.</p>
@@ -91,8 +89,8 @@ The default (<code>None</code>) is based on recommendations from the system.</p>
 <div class='docblock'><p>Set request handlers.</p>
 </div><h4 id='method.port' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.port' class='fnname'>port</a>(self, port: <a href='http://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>) -&gt; <a class='struct' href='../../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>&lt;'s, R, C&gt;</code></h4>
 <div class='docblock'><p>Change the port. Default is <code>80</code>.</p>
-</div><h4 id='method.host' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.host' class='fnname'>host</a>(self, host: <a class='enum' href='http://doc.rust-lang.org/nightly/std/net/ip/enum.IpAddr.html' title='std::net::ip::IpAddr'>IpAddr</a>) -&gt; <a class='struct' href='../../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>&lt;'s, R, C&gt;</code></h4>
-<div class='docblock'><p>Change the host address. Default is <code>0.0.0.0</code>.</p>
+</div><h4 id='method.host' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.host' class='fnname'>host</a>(self, host: <a class='enum' href='http://doc.rust-lang.org/nightly/std/net/addr/enum.SocketAddr.html' title='std::net::addr::SocketAddr'>SocketAddr</a>) -&gt; <a class='struct' href='../../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>&lt;'s, R, C&gt;</code></h4>
+<div class='docblock'><p>Change the host address. Default is <code>0.0.0.0:80</code>.</p>
 </div><h4 id='method.https' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.https' class='fnname'>https</a>(self, cert: &amp;'s <a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>, key: &amp;'s <a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='struct' href='../../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>&lt;'s, R, C&gt;</code></h4>
 <div class='docblock'><p>Change the protocol to HTTPS.</p>
 </div><h4 id='method.threads' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.threads' class='fnname'>threads</a>(self, threads: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;) -&gt; <a class='struct' href='../../rustful/server/struct.Server.html' title='rustful::server::Server'>Server</a>&lt;'s, R, C&gt;</code></h4>
