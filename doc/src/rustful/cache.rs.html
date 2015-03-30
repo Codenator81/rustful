@@ -337,17 +337,6 @@
 <span id="295">295</span>
 <span id="296">296</span>
 <span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Traits and implementations for cached resources.</span>
 
@@ -373,17 +362,6 @@
             }
         }
     )
-}
-
-<span class='doccomment'>///A trait for cache storage.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Cache</span> {
-    <span class='doccomment'>///Free all the unused cached resources.</span>
-    <span class='kw'>fn</span> <span class='ident'>free_unused</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>);
-}
-
-<span class='kw'>impl</span> <span class='ident'>Cache</span> <span class='kw'>for</span> () {
-    <span class='kw'>fn</span> <span class='ident'>free_unused</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_log</span>: <span class='kw-2'>&amp;</span><span class='ident'>Log</span>) {}
 }
 
 

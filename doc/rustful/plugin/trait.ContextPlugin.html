@@ -43,21 +43,16 @@
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>plugin</a>::<wbr><a class='trait' href=''>ContextPlugin</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5685' href='../../src/rustful/plugin.rs.html#17-23'>[src]</a></span></h1>
+        </span><a id='src-5451' href='../../src/rustful/plugin.rs.html#17-21'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait ContextPlugin {
-    type Cache;
-
-    fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::Cache&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a>;
+    fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a>;
 }</pre><div class='docblock'><p>A trait for context plugins.</p>
 
 <p>They are able to modify and react to a <code>Context</code> before it&#39;s sent to the handler.</p>
 </div>
-            <h2 id='associated-types'>Associated Types</h2>
-            <div class='methods'>
-        <h3 id='associatedtype.Cache' class='method'><a class='stability Unmarked' title='No stability level'></a><code>type Cache</code></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.modify' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>&lt;Self::Cache&gt;) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a></code></h3><div class='docblock'><p>Try to modify the <code>Context</code>.</p>
+        <h3 id='tymethod.modify' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#tymethod.modify' class='fnname'>modify</a>(&amp;self, log: &amp;<a class='trait' href='../../rustful/log/trait.Log.html' title='rustful::log::Log'>Log</a>, context: &amp;mut <a class='struct' href='../../rustful/context/struct.Context.html' title='rustful::context::Context'>Context</a>) -&gt; <a class='enum' href='../../rustful/plugin/enum.ContextAction.html' title='rustful::plugin::ContextAction'>ContextAction</a></code></h3><div class='docblock'><p>Try to modify the <code>Context</code>.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
