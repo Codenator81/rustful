@@ -468,6 +468,14 @@
 <span id="426">426</span>
 <span id="427">427</span>
 <span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Response writers.</span>
 
@@ -475,8 +483,9 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>Write</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::{<span class='ident'>Error</span>, <span class='ident'>FromError</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>ToOwned</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>convert</span>::<span class='ident'>From</span>;
 
 <span class='kw'>use</span> <span class='ident'>hyper</span>;
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>Headers</span>, <span class='ident'>Header</span>, <span class='ident'>HeaderFormat</span>};
@@ -492,7 +501,7 @@
 
 <span class='doccomment'>///The result of a response action.</span>
 <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ResponseError</span> {
     <span class='doccomment'>///A response plugin failed.</span>
     <span class='ident'>PluginError</span>(<span class='ident'>String</span>),
@@ -501,8 +510,8 @@
     <span class='ident'>IoError</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>)
 }
 
-<span class='kw'>impl</span> <span class='ident'>FromError</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ResponseError</span> {
-    <span class='kw'>fn</span> <span class='ident'>from_error</span>(<span class='ident'>err</span>: <span class='ident'>io</span>::<span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='ident'>ResponseError</span> {
+<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ResponseError</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>err</span>: <span class='ident'>io</span>::<span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='ident'>ResponseError</span> {
         <span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>err</span>)
     }
 }
@@ -759,7 +768,6 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>unsafe_destructor</span>]</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Writes status code and headers and closes the connection.</span>
@@ -782,7 +790,14 @@
 
     <span class='doccomment'>///Writes response body data to the client.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send</span><span class='op'>&lt;</span><span class='lifetime'>&#39;d</span>, <span class='ident'>Content</span>: <span class='ident'>IntoResponseData</span><span class='op'>&lt;</span><span class='lifetime'>&#39;d</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>content</span>: <span class='ident'>Content</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span>, <span class='ident'>ResponseError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>as_mut</span>().<span class='ident'>expect</span>(<span class='string'>&quot;write after close&quot;</span>).<span class='ident'>as_mut</span>().<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>clone</span>()));
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>writer</span> {
+            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>)) <span class='op'>=&gt;</span> <span class='ident'>writer</span>,
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>BrokenPipe</span>, <span class='string'>&quot;write after close&quot;</span>))),
+            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(_)) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>e</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>take</span>() {
+                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>);
+            } <span class='kw'>else</span> { <span class='macro'>unreachable</span><span class='macro'>!</span>(); }
+        };
+
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>plugin_result</span> <span class='op'>=</span> <span class='ident'>Action</span>::<span class='ident'>write</span>(<span class='prelude-val'>Some</span>(<span class='ident'>content</span>));
 
         <span class='kw'>for</span> <span class='ident'>plugin</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>plugins</span> {
@@ -856,7 +871,13 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>borrow_writer</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hyper</span>::<span class='ident'>server</span>::<span class='ident'>response</span>::<span class='ident'>Response</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>hyper</span>::<span class='ident'>net</span>::<span class='ident'>Streaming</span><span class='op'>&gt;</span>, <span class='ident'>ResponseError</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>as_mut</span>().<span class='ident'>expect</span>(<span class='string'>&quot;write after close&quot;</span>).<span class='ident'>as_mut</span>().<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>e</span>.<span class='ident'>clone</span>())
+        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>writer</span> {
+            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>writer</span>),
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>BrokenPipe</span>, <span class='string'>&quot;write after close&quot;</span>))),
+            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(_)) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>e</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>take</span>() {
+                <span class='prelude-val'>Err</span>(<span class='ident'>e</span>)
+            } <span class='kw'>else</span> { <span class='macro'>unreachable</span><span class='macro'>!</span>(); }
+        }
     }
 }
 
@@ -875,7 +896,6 @@
     }
 }
 
-<span class='attribute'>#[<span class='ident'>unsafe_destructor</span>]</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_must_use</span>)]</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>ResponseWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
     <span class='doccomment'>///Finishes writing and closes the connection.</span>
@@ -890,11 +910,7 @@
     <span class='kw'>match</span> <span class='ident'>res</span> {
         <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>),
         <span class='prelude-val'>Err</span>(<span class='ident'>ResponseError</span>::<span class='ident'>IoError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
-        <span class='prelude-val'>Err</span>(<span class='ident'>ResponseError</span>::<span class='ident'>PluginError</span>(<span class='ident'>e</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(
-            <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>,
-            <span class='string'>&quot;response plugin error&quot;</span>,
-            <span class='prelude-val'>Some</span>(<span class='ident'>e</span>)
-        ))
+        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='ident'>e</span>))
     }
 }
 </pre>

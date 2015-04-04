@@ -237,7 +237,6 @@
 <span id="195">195</span>
 <span id="196">196</span>
 <span id="197">197</span>
-<span id="198">198</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Some helpful macros.</span>
 
@@ -254,7 +253,6 @@
 <span class='doccomment'>///use rustful::Method::Get;</span>
 <span class='doccomment'>///# use rustful::{Handler, Context, Response, TreeRouter};</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///# #[derive(Copy)]</span>
 <span class='doccomment'>///# struct DummyHandler;</span>
 <span class='doccomment'>///# impl Handler for DummyHandler {</span>
 <span class='doccomment'>///#     fn handle_request(&amp;self, _: Context, _: Response){}</span>
@@ -285,7 +283,7 @@
 <span class='doccomment'>///use rustful::Method::{Get, Post, Delete};</span>
 <span class='doccomment'>///# use rustful::{Handler, Context, Response, TreeRouter};</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>///# #[derive(Copy)]</span>
+<span class='doccomment'>///# #[derive(Clone, Copy)]</span>
 <span class='doccomment'>///# struct DummyHandler;</span>
 <span class='doccomment'>///# impl Handler for DummyHandler {</span>
 <span class='doccomment'>///#     fn handle_request(&amp;self, _: Context, _: Response){}</span>

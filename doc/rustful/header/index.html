@@ -43,7 +43,7 @@
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rustful</a>::<wbr><a class='mod' href=''>header</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5234' href='https://hyperium.github.io/hyper/hyper/index.html/hyper/header/index.html?gotosrc=5234'>[src]</a></span></h1>
+        </span><a id='src-5017' href='https://hyperium.github.io/hyper/hyper/index.html/hyper/header/index.html?gotosrc=5017'>[src]</a></span></h1>
 <div class='docblock'><p>Headers container, and common header fields.</p>
 
 <p>hyper has the opinion that Headers should be strongly-typed, because that&#39;s
@@ -63,28 +63,31 @@ are already provided, such as <code>Host</code>, <code>ContentType</code>, <code
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Accept.html'
                                title='rustful::header::Accept'>Accept</a></td>
-                        <td class='docblock short'><p>The <code>Accept</code> header.</p>
+                        <td class='docblock short'><p><code>Accept</code> header, defined in <a href="http://tools.ietf.org/html/rfc7231#section-5.3.2">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.AcceptCharset.html'
                                title='rustful::header::AcceptCharset'>AcceptCharset</a></td>
-                        <td class='docblock short'><p>The <code>Accept-Charset</code> header</p>
+                        <td class='docblock short'><p><code>Accept-Charset</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-5.3.3">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.AcceptEncoding.html'
                                title='rustful::header::AcceptEncoding'>AcceptEncoding</a></td>
-                        <td class='docblock short'><p>The <code>Accept-Encoding</code> header</p>
+                        <td class='docblock short'><p><code>Accept-Encoding</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-5.3.4">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.AcceptLanguage.html'
                                title='rustful::header::AcceptLanguage'>AcceptLanguage</a></td>
-                        <td class='docblock short'><p>The <code>Accept-Language</code> header</p>
+                        <td class='docblock short'><p><code>Accept-Language</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-5.3.5">RFC7231</a></p>
 </td>
                     </tr>
                 
@@ -131,8 +134,7 @@ part of <a href="http://www.w3.org/TR/cors/">CORS</a>.</p>
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Allow.html'
                                title='rustful::header::Allow'>Allow</a></td>
-                        <td class='docblock short'><p>The <code>Allow</code> header.
-See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://tools.ietf.org/html/rfc7231#section-7.4.1</a></p>
+                        <td class='docblock short'><p><code>Allow</code> header, defined in <a href="http://tools.ietf.org/html/rfc7231#section-7.4.1">RFC7231</a></p>
 </td>
                     </tr>
                 
@@ -167,21 +169,24 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.ContentEncoding.html'
                                title='rustful::header::ContentEncoding'>ContentEncoding</a></td>
-                        <td class='docblock short'><p>The <code>Content-Encoding</code> header.</p>
+                        <td class='docblock short'><p><code>Content-Encoding</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-3.1.2.2">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.ContentLength.html'
                                title='rustful::header::ContentLength'>ContentLength</a></td>
-                        <td class='docblock short'><p>The <code>Content-Length</code> header.</p>
+                        <td class='docblock short'><p><code>Content-Length</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7230#section-3.3.2">RFC7230</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.ContentType.html'
                                title='rustful::header::ContentType'>ContentType</a></td>
-                        <td class='docblock short'><p>The <code>Content-Type</code> header.</p>
+                        <td class='docblock short'><p><code>Content-Type</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-3.1.1.5">RFC7231</a></p>
 </td>
                     </tr>
                 
@@ -195,14 +200,14 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Date.html'
                                title='rustful::header::Date'>Date</a></td>
-                        <td class='docblock short'><p>The <code>Date</code> header field.</p>
+                        <td class='docblock short'><p><code>Date</code> header, defined in <a href="http://tools.ietf.org/html/rfc7231#section-7.1.1.2">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.EntityTag.html'
                                title='rustful::header::EntityTag'>EntityTag</a></td>
-                        <td class='docblock short'><p>An entity tag</p>
+                        <td class='docblock short'><p>An entity tag, defined in <a href="https://tools.ietf.org/html/rfc7232#section-2.3">RFC7232</a></p>
 </td>
                     </tr>
                 
@@ -216,7 +221,7 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Expires.html'
                                title='rustful::header::Expires'>Expires</a></td>
-                        <td class='docblock short'><p>The <code>Expires</code> header field.</p>
+                        <td class='docblock short'><p><code>Expires</code> header, defined in <a href="http://tools.ietf.org/html/rfc7234#section-5.3">RFC7234</a></p>
 </td>
                     </tr>
                 
@@ -256,30 +261,40 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     </tr>
                 
                     <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.HttpDate.html'
+                               title='rustful::header::HttpDate'>HttpDate</a></td>
+                        <td class='docblock short'><p>A <code>time::Time</code> with HTTP formatting and parsing</p>
+</td>
+                    </tr>
+                
+                    <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.IfModifiedSince.html'
                                title='rustful::header::IfModifiedSince'>IfModifiedSince</a></td>
-                        <td class='docblock short'><p>The <code>If-Modified-Since</code> header field.</p>
+                        <td class='docblock short'><p><code>If-Modified-Since</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7232#section-3.3">RFC7232</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.IfUnmodifiedSince.html'
                                title='rustful::header::IfUnmodifiedSince'>IfUnmodifiedSince</a></td>
-                        <td class='docblock short'><p>The <code>If-Unmodified-Since</code> header field.</p>
+                        <td class='docblock short'><p><code>If-Unmodified-Since</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7232#section-3.4">RFC7232</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.LastModified.html'
                                title='rustful::header::LastModified'>LastModified</a></td>
-                        <td class='docblock short'><p>The <code>LastModified</code> header field.</p>
+                        <td class='docblock short'><p><code>Last-Modified</code> header, defined in <a href="http://tools.ietf.org/html/rfc7232#section-2.2">RFC7232</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Location.html'
                                title='rustful::header::Location'>Location</a></td>
-                        <td class='docblock short'><p>The <code>Location</code> header.</p>
+                        <td class='docblock short'><p><code>Location</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-7.1.2">RFC7231</a></p>
 </td>
                     </tr>
                 
@@ -301,14 +316,15 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Referer.html'
                                title='rustful::header::Referer'>Referer</a></td>
-                        <td class='docblock short'><p>The <code>Referer</code> header.</p>
+                        <td class='docblock short'><p><code>Referer</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-5.5.2">RFC7231</a></p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.Server.html'
                                title='rustful::header::Server'>Server</a></td>
-                        <td class='docblock short'><p>The <code>Server</code> header field.</p>
+                        <td class='docblock short'><p><code>Server</code> header, defined in <a href="http://tools.ietf.org/html/rfc7231#section-7.4.2">RFC7231</a></p>
 </td>
                     </tr>
                 
@@ -322,7 +338,8 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.TransferEncoding.html'
                                title='rustful::header::TransferEncoding'>TransferEncoding</a></td>
-                        <td class='docblock short'><p>The <code>Transfer-Encoding</code> header.</p>
+                        <td class='docblock short'><p><code>Transfer-Encoding</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7230#section-3.3.1">RFC7230</a></p>
 </td>
                     </tr>
                 
@@ -336,7 +353,8 @@ See also <a href="https://tools.ietf.org/html/rfc7231#section-7.4.1">https://too
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.UserAgent.html'
                                title='rustful::header::UserAgent'>UserAgent</a></td>
-                        <td class='docblock short'><p>The <code>User-Agent</code> header field.</p>
+                        <td class='docblock short'><p><code>User-Agent</code> header, defined in
+<a href="http://tools.ietf.org/html/rfc7231#section-5.5.3">RFC7231</a></p>
 </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
