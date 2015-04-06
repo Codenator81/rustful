@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["CachedValue","This trait provides functions for handling cached resources."]],"struct":[["CachedFile","Cached raw file content."],["CachedProcessedFile","A processed cached file."]]});
+initSidebarItems({"struct":[["CachedFile","Cached raw file content."],["CachedProcessedFile","A processed cached file."]],"trait":[["CachedValue","This trait provides functions for handling cached resources."]]});

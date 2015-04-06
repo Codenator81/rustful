@@ -43,7 +43,7 @@
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rustful</a>::<wbr><a href='index.html'>response</a>::<wbr><a class='struct' href=''>Response</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-4314' href='../../src/rustful/response.rs.html#172-181'>[src]</a></span></h1>
+        </span><a id='src-4345' href='../../src/rustful/response.rs.html#174-184'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Response&lt;'a, 'b&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>An interface for setting HTTP status code and response headers, before data gets written to the client.</p>
@@ -54,6 +54,9 @@
 <div class='docblock'><p>Set a HTTP response header. Date, content type (text/plain) and server is automatically set.</p>
 </div><h4 id='method.get_header' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.get_header' class='fnname'>get_header</a>&lt;H: <a class='trait' href='../../rustful/header/trait.Header.html' title='rustful::header::Header'>Header</a> + <a class='trait' href='../../rustful/header/trait.HeaderFormat.html' title='rustful::header::HeaderFormat'>HeaderFormat</a>&gt;(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;H&gt;</code></h4>
 <div class='docblock'><p>Get a HTTP response header if set.</p>
+</div><h4 id='method.plugin_storage' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.plugin_storage' class='fnname'>plugin_storage</a>(&amp;mut self) -&gt; &amp;mut AnyMap</code></h4>
+<div class='docblock'><p>Mutably borrow the plugin storage. It can be used to communicate with
+the response plugins.</p>
 </div><h4 id='method.into_writer' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.into_writer' class='fnname'>into_writer</a>(self) -&gt; <a class='struct' href='../../rustful/response/struct.ResponseWriter.html' title='rustful::response::ResponseWriter'>ResponseWriter</a>&lt;'a, 'b&gt;</code></h4>
 <div class='docblock'><p>Turn the <code>Response</code> into a <code>ResponseWriter</code> to allow the response body to be written.</p>
 
