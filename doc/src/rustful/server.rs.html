@@ -465,16 +465,8 @@
 <span id="423">423</span>
 <span id="424">424</span>
 <span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
-<span id="431">431</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Server configuration and instance.</span>
-
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::{<span class='ident'>SocketAddr</span>, <span class='ident'>SocketAddrV4</span>, <span class='ident'>SocketAddrV6</span>, <span class='ident'>Ipv4Addr</span>};
@@ -553,11 +545,9 @@
     <span class='kw'>pub</span> <span class='ident'>log</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Log</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span>,
 
     <span class='doccomment'>///The context plugin stack.</span>
-    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='kw'>pub</span> <span class='ident'>context_plugins</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ContextPlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;&gt;</span>,
 
     <span class='doccomment'>///The response plugin stack.</span>
-    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='kw'>pub</span> <span class='ident'>response_plugins</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;&gt;</span>
 }
 
@@ -652,14 +642,12 @@
     }
 
     <span class='doccomment'>///Add a context plugin to the plugin stack.</span>
-    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_context_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ContextPlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>context_plugins</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>plugin</span>));
         <span class='self'>self</span>
     }
 
     <span class='doccomment'>///Add a response plugin to the plugin stack.</span>
-    <span class='attribute'>#[<span class='ident'>unstable</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_response_plugin</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>ResponsePlugin</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>plugin</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span>  <span class='ident'>Server</span><span class='op'>&lt;</span><span class='lifetime'>&#39;s</span>, <span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>response_plugins</span>.<span class='ident'>push</span>(<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>plugin</span>));
         <span class='self'>self</span>
