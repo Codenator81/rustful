@@ -833,6 +833,9 @@
 <span id="791">791</span>
 <span id="792">792</span>
 <span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//!Routers stores request handlers, using an HTTP method and a path as keys.</span>
 <span class='doccomment'>//!</span>
@@ -1308,6 +1311,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
     <span class='kw'>use</span> <span class='ident'>router</span>::<span class='ident'>Router</span>;
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)]</span>
     <span class='kw'>use</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>;
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>TreeRouter</span>;
     <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>method</span>::<span class='ident'>Method</span>::{<span class='ident'>Get</span>, <span class='ident'>Post</span>, <span class='ident'>Delete</span>, <span class='ident'>Put</span>, <span class='ident'>Head</span>};
@@ -1557,6 +1561,7 @@
 
     
     <span class='attribute'>#[<span class='ident'>bench</span>]</span>
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>search_speed</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Bencher</span>) {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
             (<span class='ident'>Get</span>, <span class='string'>&quot;path/to/test1&quot;</span>, <span class='string'>&quot;test 1&quot;</span>),
@@ -1598,6 +1603,7 @@
 
     
     <span class='attribute'>#[<span class='ident'>bench</span>]</span>
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)]</span>
     <span class='kw'>fn</span> <span class='ident'>wildcard_speed</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Bencher</span>) {
         <span class='kw'>let</span> <span class='ident'>routes</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
             (<span class='ident'>Get</span>, <span class='string'>&quot;*/to/*/*/a&quot;</span>, <span class='string'>&quot;test 1&quot;</span>)
